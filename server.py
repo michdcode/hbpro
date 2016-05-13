@@ -19,11 +19,15 @@ def index():
     return render_template("home.html")
 
 
-@app.route('/play')
+@app.route('/play', methods=["POST"])
 def getaway():
     """Plays song and shows picture."""
 
-    return render_template("play.html")
+    song = request.form["sname"]
+    api.check_song_data(song)
+
+
+    # return render_template("play.html")
 
 
 @app.route('/location_prob')
