@@ -12,7 +12,7 @@ def obtain_song_URL():
     consumer_secret = os.environ['consumer_secret']
     consumer = oauth.Consumer(consumer_key, consumer_secret)
     #must replace the numbers in URL with trackid for selected song
-    request_url = "http://previews.7digital.com/clip/569975?country=US"
+    request_url = "http://previews.7digital.com/clip/35103001?country=US"
 
     req = oauth.Request(method="GET", url=request_url, is_form_encoded=True)
 
@@ -22,8 +22,10 @@ def obtain_song_URL():
 
     req.sign_request(sig_method, consumer, token=None)
 
+    sURL = req.to_url()
+    print sURL
     #right now this prints to terminal, but will need to send URL for other use
-    print req.to_url()
+    # print req.to_url()
 
 
 def check_song_data(song):
@@ -35,48 +37,51 @@ def check_song_data(song):
 
     url = 'http://api.7digital.com/1.2/track/search?'
 
-    # print (r.url)
+    result = requests.get(url, payload)
     # """test one: is the URL encoded properly
     # result one: yes: http://api.7digital.com/1.2/track/search?
     # q=happy&country=US&oauth_consumer_key=[omitted]&usageTypes=download
     # """
 
-    result = requests.get(url, payload)
     root = ET.XML(result.text)
-    print root
-    # return root
-    # the above returns an object <Element 'response' at 0x10ae65e10>
+    count_song_results(root)
+    # print root - test to see if get object back
+    # yes, the above returns an object <Element 'response' at 0x10ae65e10>
 
-    for item in root.findall('searchResults'):
-        num = item.find('totalItems').text
-        print num
-    # the above returns the number of results from the search
-        if int(num) is 0:
-            print "none"
-        elif int(num) is 1:
-            print "one"
-        else:
-            pass
-    #the above evaluates the number of results
+
+def count_song_results(root):
+    """Count results and determine next step"""
+    # #the above evaluates the number of results
+    track_ids = []
     for track in root.iter('track'):
-        print track.attrib
-    #the above grabs the track id of all songs in this dict format with a return
-    # between each one {'id': '33576075'}
+        track_ids.append(track.attrib)
+
+    print track_ids
+    r = len(track_ids)
+    # the above grabs the track id of all songs and turns them into a list of
+    # dictionaries {'id': '33576075'}
+    titles = []
     for title in root.iter('title'):
-        print title.text
-    #this is the titles problem is that two titles, both of which are children
-    #exist, the first one is the song title, the second is the album title.
+        titles.append(title.text)
+    # the above grabs the title of the song and the title of the album
+    del titles[::-2]
+    print titles
+    # the above deletes the album title
+    track_ids = [li['id'] for li in track_ids]
+    # the above deletes the keys, so the list just has the track ids
+    songid_title = zip(track_ids, titles)
+    # the above matches the tracks id and titles into one list, did sample
+    # tests to confirm that the matching is correct in terms of id & song
+    print songid_title
 
-
-
-# def process_song_data(result):
-#     """Turn XML data into string and determine next step"""
-
-#     root = ET.fromstring(result)
-
-#     print type(root)
+    return r, songid_title
 
     # for item in root.findall('searchResults'):
-    #     num = item.find('pageSize').text
-    #     print num
-    # right now print to the terminal & look at encoding
+    #     num = item.find('totalItems').text
+    # the above returns a string with the number of results from the search
+    # if r is 0:
+    #     return r
+    # elif r is 1:
+    #     pass
+    # else:
+    #     print "many"

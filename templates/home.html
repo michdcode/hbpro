@@ -8,28 +8,17 @@
 {% block content %}
 
 <!-- This div contains the song selection form -->
-    <form action="/play" method="POST" id="ssearch">
+    <form action="/songprocess" method="POST" id="ssearch">
 
-    <div class="form-group">
-        <label>Enter Song Name: <input type="text" name="sname" id="psname" 
-            class="required">
-        </label>
-    </div>
+        <div class="form-group">
+            <p id="welcome"> Getaway for a minute! Listen to your choice of song while looking at a picture of a location you pick! </p>
+            <label>Enter Song Name: <input type="text" name="sname" id="psname"class="required"></label>
+        </div>
 
-<!-- This div contains the location selection form -->
-   <!-- <form action="/play" method="POST" id="lsearch"> -->
+        <input type="submit" value="GO!" id="btn-primary-">
 
-   <!--  <div class="form-group">
-        <label>Enter Location Name: <input type="text" name="lname" id="plname" 
-            class="required">
-        </label>
-    </div>
- -->
-    <input type="submit" value="GO!" id="btn-primary">
-
-</form>
+    </form>
 
     <!-- <script src="/static/js/validatesong.js"></script> -->
-
 
 {% endblock %}

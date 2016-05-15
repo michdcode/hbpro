@@ -1,0 +1,24 @@
+<!doctype html>
+{% extends 'base.html' %}
+
+{% block head %}
+    <script src="https://code.jquery.com/jquery.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- This div contains the location selection form -->
+    <form action="/locprocess" method="POST" id="lsearch">
+
+        <div class="form-group">
+            <p id="locwelcome">Now it's time to pick a location! </p>
+            <label>Enter Location Name: <input type="text" name="lname" id="plname"class="required"></label>
+        </div>
+
+        <input type="submit" value="GO!" id="btn-primary-loc">
+
+    </form>
+
+    <script src="/static/js/validateloc.js"></script>
+
+{% endblock %}
