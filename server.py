@@ -3,13 +3,15 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 import api
+import settings
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
-app.secret_key = 'JMD'
-
-#this will throw an error if a variable is undefined in jinja
+app.secret_key = "JMD"
 app.jinja_env.undefined = StrictUndefined
+#this will throw an error if a variable is undefined in jinja
+
+settings.init()
 
 
 @app.route('/')
@@ -23,25 +25,30 @@ def index():
 def song_process():
     """Looks for song and returns song information"""
 
-    song = request.form["sname"]
-    api.check_song_data(song)
+    user_song = request.form["sname"]
+    api.check_song_data(user_song)
 
-    if r is 0:
-        flash('No songs with that name were found, please enter another song.')
+    # n = cache.get("songnum")
+    # s = cache.get("sidntitle")
+
+    if settings.num[0] is 0:
+        flash("No songs with that name were found, please enter another song.")
         return redirect('/')
-        #the above is temporary really sending to errors
-    elif r > 1:
-        render_template("song_prob.html", songid_title)
-    else:
-        songid = songid_title[1]
-        api.check_song_data(songid)
+    elif settings.num[0] > 1:
+        return redirect('/song_prob')
+    elif settings.num[0] is 1:
+        gsidtil = settings.songid_title[0][0]
+        song = gsidtil[0]
+        song = int(song)
+        api.obtain_song_URL(song)
+        return redirect("http://%s") % (settings.sURL)  # this doesn't work yet
 
 
 @app.route('/song_prob')
 def resolve_problem():
     """Resolves problem if song has no preview or is explicit"""
 
-    return render_template('song_prob.html')
+    return render_template('song_prob.html', snum=settings.num)
 
 
 @app.route('/select_loc')

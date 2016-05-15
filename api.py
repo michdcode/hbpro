@@ -2,17 +2,18 @@ import oauth2 as oauth
 import os
 import requests
 import xml.etree.ElementTree as ET
+import settings
 
 
 #changing this from an individual script to a function
-def obtain_song_URL():
+def obtain_song_URL(song):
     """Obtains oauth signature and URL to play song preview."""
 
     consumer_key = os.environ['consumer_key']
     consumer_secret = os.environ['consumer_secret']
     consumer = oauth.Consumer(consumer_key, consumer_secret)
     #must replace the numbers in URL with trackid for selected song
-    request_url = "http://previews.7digital.com/clip/35103001?country=US"
+    request_url = "http://previews.7digital.com/clip/%d?country=US" % (song)
 
     req = oauth.Request(method="GET", url=request_url, is_form_encoded=True)
 
@@ -57,7 +58,9 @@ def count_song_results(root):
         track_ids.append(track.attrib)
 
     print track_ids
-    r = len(track_ids)
+    settings.num.append(len(track_ids))
+    print settings.num
+    # print num
     # the above grabs the track id of all songs and turns them into a list of
     # dictionaries {'id': '33576075'}
     titles = []
@@ -68,20 +71,10 @@ def count_song_results(root):
     print titles
     # the above deletes the album title
     track_ids = [li['id'] for li in track_ids]
-    # the above deletes the keys, so the list just has the track ids
-    songid_title = zip(track_ids, titles)
-    # the above matches the tracks id and titles into one list, did sample
-    # tests to confirm that the matching is correct in terms of id & song
-    print songid_title
-
-    return r, songid_title
-
-    # for item in root.findall('searchResults'):
-    #     num = item.find('totalItems').text
-    # the above returns a string with the number of results from the search
-    # if r is 0:
-    #     return r
-    # elif r is 1:
-    #     pass
-    # else:
-    #     print "many"
+    # the above deletes keys, which are all 'id', now the list has the track ids
+    settings.songid_title.append(zip(track_ids, titles))
+    # the above matches the track ids and titles into one list
+    # sample tests confirm that the matching is correct in terms of id & song
+    # print songid_title
+    # cache.set('songnum', num)
+    # cache.set('sidntitle', songid_title)
