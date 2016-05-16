@@ -1,7 +1,7 @@
 """One minute getaway."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session, jsonify
+from flask import Flask, render_template, request, flash, redirect, session, url_for
 import api
 import settings
 
@@ -41,7 +41,9 @@ def song_process():
         song = gsidtil[0]
         song = int(song)
         api.obtain_song_URL(song)
-        return redirect("http://%s") % (settings.sURL)  # this doesn't work yet
+        return redirect("settings.sURL[0]", code=302)
+        #the call to the URL doesn't work yet
+        #redirect(url_for("settings.sURL[0]"))
 
 
 @app.route('/song_prob')

@@ -5,3 +5,6 @@ def init():
     num = []
     global sURL
     sURL = []
+
+# """http://stackoverflow.com/questions/13034496/
+# using-global-variables-between-files-in-python"""

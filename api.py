@@ -23,8 +23,8 @@ def obtain_song_URL(song):
 
     req.sign_request(sig_method, consumer, token=None)
 
-    sURL = req.to_url()
-    print sURL
+    settings.sURL.append(req.to_url())
+
     #right now this prints to terminal, but will need to send URL for other use
     # print req.to_url()
 
@@ -60,7 +60,6 @@ def count_song_results(root):
     print track_ids
     settings.num.append(len(track_ids))
     print settings.num
-    # print num
     # the above grabs the track id of all songs and turns them into a list of
     # dictionaries {'id': '33576075'}
     titles = []
@@ -76,5 +75,3 @@ def count_song_results(root):
     # the above matches the track ids and titles into one list
     # sample tests confirm that the matching is correct in terms of id & song
     # print songid_title
-    # cache.set('songnum', num)
-    # cache.set('sidntitle', songid_title)
