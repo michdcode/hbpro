@@ -1,17 +1,14 @@
 """One minute getaway."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session, url_for
-import api
-import settings
+from flask import Flask, render_template, request, flash, redirect, session
+from api import obtain_song_URL, get_song_info, root, track_ids, songid_title, get_track_ids, get_song_id_title
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
 app.secret_key = "JMD"
 app.jinja_env.undefined = StrictUndefined
 #this will throw an error if a variable is undefined in jinja
-
-settings.init()
 
 
 @app.route('/')
@@ -25,33 +22,30 @@ def index():
 def song_process():
     """Looks for song and returns song information"""
 
-    user_song = request.form["sname"]
-    api.check_song_data(user_song)
+    user_song = request.form.get("sname")
+    root = get_song_info(user_song)
+    track_ids = get_track_ids(root)
 
-    # n = cache.get("songnum")
-    # s = cache.get("sidntitle")
-
-    if settings.num[0] is 0:
+    if len(track_ids) == 0:
         flash("No songs with that name were found, please enter another song.")
         return redirect('/')
-    elif settings.num[0] > 1:
-        return redirect('/song_prob')
-    elif settings.num[0] is 1:
-        gsidtil = settings.songid_title[0][0]
-        song = gsidtil[0]
-        song = int(song)
-        api.obtain_song_URL(song)
-        return redirect("settings.sURL[0]", code=302)
-        #the call to the URL doesn't work yet
-        #redirect(url_for("settings.sURL[0]"))
+    elif len(track_ids) > 1:
+        songid_title = get_song_id_title(root, track_ids)
+        return redirect('/song_prob', songid_title=songid_title)
+    elif len(track_ids) == 1:
+        return redirect('/play', track_id=track_ids[0].get('id'))
 
 
 @app.route('/song_prob')
 def resolve_problem():
-    """Resolves problem if song has no preview or is explicit"""
+    """Resolves problem if more than one song with same name"""
 
-    return render_template('song_prob.html', snum=settings.num)
+    return render_template('song_prob.html', songs=songid_title)
 
+
+# @app.route('/previewcheck', methods=["GET"])
+# def preview_check():
+#     """Checks preview URL to see if preview exists"""
 
 @app.route('/select_loc')
 def select_location():
@@ -70,7 +64,11 @@ def resolve_location():
 @app.route('/play', methods=["POST"])
 def getaway():
     """Plays song and shows picture."""
-    return render_template("play.html")
+
+    track_id = request.args.get("track_id")
+    track_id = int(track_id)
+    surl = obtain_song_URL(track_id)
+    return render_template("play.html", surl=surl)
 
 
 @app.route('/options')
