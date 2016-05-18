@@ -10,13 +10,12 @@
 <p id="song-error"> There is more than one song with that name. The first group of results (up to 10) from the song search are displayed. Please note that the song may appear more than once if it was included on multiple albums. <br> Please choose a song:</p>
 
 <!-- insert jinja for loop here using song title data -->
-<form id="song_selection" action="/songpreview-check">
+<form id="song_selection" action="/play">
 <!-- need to send song id associated with chosen song to preview check -->
     {% for song in songs %}
   <input type="radio" name="track_id" value="{{song[0]}}">{{song[1]}}
-    {% end for % }
+    {% endfor %}
     <input type="submit" value="Pick Song" id="btn-pick-primary">
 </form>
-
 
 {% endblock %}

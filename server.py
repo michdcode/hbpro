@@ -1,8 +1,8 @@
 """One minute getaway."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session
-from api import obtain_song_URL, get_song_info, root, track_ids, songid_title, get_track_ids, get_song_id_title
+from flask import Flask, render_template, request, flash, redirect, session, url_for
+from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
@@ -28,46 +28,47 @@ def song_process():
 
     if len(track_ids) == 0:
         flash("No songs with that name were found, please enter another song.")
-        return redirect('/')
+        return redirect("/")
+
     elif len(track_ids) > 1:
         songid_title = get_song_id_title(root, track_ids)
-        return redirect('/song_prob', songid_title=songid_title)
+        return render_template("song_prob.html", songs=songid_title)
+
     elif len(track_ids) == 1:
-        return redirect('/play', track_id=track_ids[0].get('id'))
+        return redirect("/play")
+        return redirect("/play", track_id=track_ids[0].get('id'))
 
-
-@app.route('/song_prob')
-def resolve_problem():
-    """Resolves problem if more than one song with same name"""
-
-    return render_template('song_prob.html', songs=songid_title)
-
-
-# @app.route('/previewcheck', methods=["GET"])
-# def preview_check():
-#     """Checks preview URL to see if preview exists"""
 
 @app.route('/select_loc')
 def select_location():
     """Select location and validate location."""
 
-    return render_template('select_loc.html')
+    return render_template("select_loc.html")
+
+
+@app.route('/locprocess', methods=["GET"])
+def resolve_location():
+    """Looks for location informatio and returns image URL"""
+
+    user_location = request.form.get("lname")
+
 
 
 @app.route('/location_prob')
 def resolve_location():
     """Resolves problem if location not found or no images found."""
 
-    return render_template('location_prob.html')
+    return render_template("location_prob.html")
 
 
-@app.route('/play', methods=["POST"])
+@app.route('/play', methods=["GET"])
 def getaway():
     """Plays song and shows picture."""
 
     track_id = request.args.get("track_id")
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)
+    #need to get the location here
     return render_template("play.html", surl=surl)
 
 
@@ -75,7 +76,7 @@ def getaway():
 def provide_options():
     """Provides options once getaway has finished."""
 
-    return render_template('options.html')
+    return render_template("options.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
