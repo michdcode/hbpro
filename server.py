@@ -35,8 +35,8 @@ def song_process():
         return render_template("song_prob.html", songs=songid_title)
 
     elif len(track_ids) == 1:
+        track_id = track_ids[0].get('id')
         return redirect("/play")
-        return redirect("/play", track_id=track_ids[0].get('id'))
 
 
 @app.route('/select_loc')
@@ -53,12 +53,11 @@ def resolve_location():
     user_location = request.form.get("lname")
 
 
+# @app.route('/location_prob')
+# def resolve_location():
+#     """Resolves problem if location not found or no images found."""
 
-@app.route('/location_prob')
-def resolve_location():
-    """Resolves problem if location not found or no images found."""
-
-    return render_template("location_prob.html")
+#     return render_template("location_prob.html")
 
 
 @app.route('/play', methods=["GET"])
