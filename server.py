@@ -27,8 +27,7 @@ def song_process():
     track_ids = get_track_ids(root)
 
     if len(track_ids) == 0:
-        flash("No songs with that name were found, please enter another song.")
-        return redirect("/")
+        return render_template("no_song_found.html")
 
     elif len(track_ids) > 1:
         songid_title = get_song_id_title(root, track_ids)
@@ -36,7 +35,7 @@ def song_process():
 
     elif len(track_ids) == 1:
         track_id = track_ids[0].get('id')
-        return redirect("/play")
+        return redirect(url_for("getaway", track_id=track_id))
 
 
 @app.route('/select_loc')
@@ -51,6 +50,7 @@ def resolve_location():
     """Looks for location informatio and returns image URL"""
 
     user_location = request.form.get("lname")
+    
 
 
 # @app.route('/location_prob')
