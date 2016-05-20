@@ -2,20 +2,28 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <script type="text/javascript"></script>
 {% endblock %}
 
 
 {% block content %}
 <!-- This div contains the image -->
+    <div id="photodisplay">Enjoy a getaway to {{loc_name}}
+        <img id="photo" src={{lurl}}></img>
+    </div>
+
 <!-- This div contains the song URL -->
-
-        
-
-        <div id="song-player">
+    <div id="song-player">
             <!-- to hide player delete word controls below -->
-            <audio src={{surl}} controls autoplay>
-            </audio>
-        </div>
+        <audio src={{surl}} controls autoplay>
+        </audio>
+    </div>
+
+<!-- This is the div for attributions -->
+    <div id="7digital"> 
+        <img src="/static/images/7digital.jpg">Need to add tagline here</img>
+    </div>
+    <div id="google"> 
+        <img src="/static/images/powered_by_google_on_white.png"></img>
+    </div>
 
 {% endblock %}

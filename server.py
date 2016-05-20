@@ -38,26 +38,11 @@ def song_process():
         return redirect(url_for("getaway", track_id=track_id))
 
 
-@app.route('/select_loc')
+@app.route('/select_loc', methods=["GET"])
 def select_location():
     """Select location and validate location."""
 
     return render_template("select_loc.html")
-
-
-@app.route('/locprocess', methods=["GET"])
-def resolve_location():
-    """Looks for location informatio and returns image URL"""
-
-    user_location = request.form.get("lname")
-    
-
-
-# @app.route('/location_prob')
-# def resolve_location():
-#     """Resolves problem if location not found or no images found."""
-
-#     return render_template("location_prob.html")
 
 
 @app.route('/play', methods=["GET"])
@@ -67,8 +52,9 @@ def getaway():
     track_id = request.args.get("track_id")
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)
-    #need to get the location here
-    return render_template("play.html", surl=surl)
+    lurl = request.args.get("URLphoto")
+    locname = request.args.get("locname")
+    return render_template("play.html", surl=surl, lurl=lurl, locname=locname)
 
 
 @app.route('/options')

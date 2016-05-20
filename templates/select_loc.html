@@ -2,23 +2,76 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <script src="https://code.jquery.com/jquery.js"></script>
+    <style>
+    #map {
+            height:50px;
+            display: none;
+    }
+    </style>
 {% endblock %}
 
 {% block content %}
+<form >
+    <form action="/play" id="lsearch">
+    <div class="form-group">
+    <p id="locwelcome">Now it's time to pick a location! </p>
+        <label>Enter Location Name: <input type="text" name="lname" id="plname"required="required"></label>
+        <input type="hidden" name="URLphoto" id="URLphoto">
+        <input type="hidden" name="locname" id="locname">
+    </div>
+<input type="submit" value="GO!" id="btn-primary-loc">
 
-<!-- This div contains the location selection form -->
-    <form action="/locprocess" id="lsearch">
+    <div id="map"></div>
+    <div><img id="photo" src=""></img></div>
+</form>
+<script type="text/javascript">
 
-        <div class="form-group">
-            <p id="locwelcome">Now it's time to pick a location! </p>
-            <label>Enter Location Name: <input type="text" name="lname" id="plname"class="required"></label>
-        </div>
+var map;
+var selectedPlace;
 
-        <input type="submit" value="GO!" id="btn-primary-loc">
+function initialize() {
+  var pyrmont = new google.maps.LatLng(-33.8665433,151.1956316);
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: pyrmont,
+      zoom: 15
+    });        
 
-    </form>
+    var input = document.getElementById('plname');
+    var options = {
+    };
 
-    <script src="/static/js/validateloc.js"></script>
+autocomplete = new google.maps.places.Autocomplete(input, options);
+
+autocomplete.addListener('place_changed', function () {
+    selectedPlace = autocomplete.getPlace();
+
+    if (selectedPlace.photos && selectedPlace.photos.length >= 1) {
+        var myPhoto = selectedPlace.photos[0];
+        var photoURL = myPhoto.getUrl({maxWidth: 500});
+        var htmlPhotoField = document.getElementByID('URLphoto');
+        htmlPhotoField.setAttribute = ('value', photoURL);
+        var namePlace = document.getElementByID('locname');
+        namePlace.setAttribute = ('value', selectedPlace.name);
+    } else {
+        var htmlPhotoField = document.getElementByID('URLphoto');
+        htmlPhotoField.setAttribute = ('value', "http://www.puppyfind.com/");
+        var namePlace = document.getElementByID('locname');
+        namePlace.setAttribute = ('value', selectedPlace.name);
+    }
+    });
+}
+
+function callback(results, status) {
+  // console.log("called callback");
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      console.log(i);
+      // console.log(results[i]);
+    }
+  }
+}
+</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initialize"></script>
 
 {% endblock %}
