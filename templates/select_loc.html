@@ -1,29 +1,32 @@
 <!doctype html>
 {% extends 'base.html' %}
 
+
 {% block head %}
     <style>
     #map {
             height:50px;
             display: none;
     }
+
     </style>
 {% endblock %}
 
 {% block content %}
-<form >
-    <form action="/play" id="lsearch">
+<form action="/play" id="lsearch">
     <div class="form-group">
     <p id="locwelcome">Now it's time to pick a location! </p>
-        <label>Enter Location Name: <input type="text" name="lname" id="plname"required="required"></label>
-        <input type="hidden" name="URLphoto" id="URLphoto">
-        <input type="hidden" name="locname" id="locname">
+        <label>Enter Location Name: <input type="text" name="lname" id="plname"required="required" size="50"></label>
+        <input type="hidden" name="URLphoto" id="URLphoto" value="">
+        <input type="hidden" name="locname" id="locname" value="">
+        <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
     </div>
 <input type="submit" value="GO!" id="btn-primary-loc">
-
-    <div id="map"></div>
-    <div><img id="photo" src=""></img></div>
 </form>
+<div id="map"></div>
+<script src="https://code.jquery.com/jquery.js"></script>
+
+
 <script type="text/javascript">
 
 var map;
@@ -31,44 +34,36 @@ var selectedPlace;
 
 function initialize() {
   var pyrmont = new google.maps.LatLng(-33.8665433,151.1956316);
-    map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map')), {
       center: pyrmont,
       zoom: 15
-    });        
-
-    var input = document.getElementById('plname');
-    var options = {
-    };
+    };        
+  var input = document.getElementById('plname');
+  var options = {};
 
 autocomplete = new google.maps.places.Autocomplete(input, options);
 
 autocomplete.addListener('place_changed', function () {
     selectedPlace = autocomplete.getPlace();
+    
 
     if (selectedPlace.photos && selectedPlace.photos.length >= 1) {
         var myPhoto = selectedPlace.photos[0];
         var photoURL = myPhoto.getUrl({maxWidth: 500});
-        var htmlPhotoField = document.getElementByID('URLphoto');
-        htmlPhotoField.setAttribute = ('value', photoURL);
-        var namePlace = document.getElementByID('locname');
-        namePlace.setAttribute = ('value', selectedPlace.name);
+        var htmlPhotoField = document.getElementById('URLphoto');
+        htmlPhotoField.setAttribute('value', photoURL);
+        var namePlace = document.getElementById('locname');
+        namePlace.setAttribute('value', selectedPlace.name);
+        console.log("photo exists")
     } else {
-        var htmlPhotoField = document.getElementByID('URLphoto');
-        htmlPhotoField.setAttribute = ('value', "http://www.puppyfind.com/");
-        var namePlace = document.getElementByID('locname');
-        namePlace.setAttribute = ('value', selectedPlace.name);
+        var htmlPhotoField = document.getElementById('URLphoto');
+        htmlPhotoField.setAttribute('value', 'http://www.puppyfind.com/');
+        var namePlace = document.getElementById('locname');
+        namePlace.setAttribute('value', selectedPlace.name);
+        console.log("photo does not exist")
     }
+    console.log("done")
     });
-}
-
-function callback(results, status) {
-  // console.log("called callback");
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      console.log(i);
-      // console.log(results[i]);
-    }
-  }
 }
 </script>
 

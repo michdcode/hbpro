@@ -3,6 +3,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, url_for
 from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
+# from goo_info import obtain_google_api_key
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
@@ -35,14 +36,15 @@ def song_process():
 
     elif len(track_ids) == 1:
         track_id = track_ids[0].get('id')
-        return redirect(url_for("getaway", track_id=track_id))
+        return redirect(url_for("select_location", track_id=track_id))
 
 
 @app.route('/select_loc', methods=["GET"])
 def select_location():
     """Select location and validate location."""
 
-    return render_template("select_loc.html")
+    track_id = request.args.get("track_id")
+    return render_template("select_loc.html", track_id=track_id)
 
 
 @app.route('/play', methods=["GET"])
@@ -55,6 +57,13 @@ def getaway():
     lurl = request.args.get("URLphoto")
     locname = request.args.get("locname")
     return render_template("play.html", surl=surl, lurl=lurl, locname=locname)
+
+
+# @app.route('/goo')
+# def get_google_key():
+#     """Obtains google API key from server."""
+
+#     obtain_google_api_key()
 
 
 @app.route('/options')

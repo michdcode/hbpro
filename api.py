@@ -4,7 +4,6 @@ import requests
 import xml.etree.ElementTree as ET
 
 
-#changing this from an individual script to a function
 def obtain_song_URL(track_id):
     """Obtains oauth signature and URL to play song preview."""
 
@@ -23,8 +22,9 @@ def obtain_song_URL(track_id):
 
     req.sign_request(sig_method, consumer, token=None)
     sURL = req.to_url()
-    print sURL
     return sURL
+    #function above is largely taken from user filip at this location: 
+    #https://groups.google.com/forum/#!msg/7digital-api/cM8zuQoThiw/tTVRsMCvs7UJ
 
 
 def get_song_info(user_song):
