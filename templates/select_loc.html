@@ -54,19 +54,16 @@ autocomplete.addListener('place_changed', function () {
         htmlPhotoField.setAttribute('value', photoURL);
         var namePlace = document.getElementById('locname');
         namePlace.setAttribute('value', selectedPlace.name);
-        console.log("photo exists")
     } else {
         var htmlPhotoField = document.getElementById('URLphoto');
         htmlPhotoField.setAttribute('value', 'http://www.puppyfind.com/');
         var namePlace = document.getElementById('locname');
         namePlace.setAttribute('value', selectedPlace.name);
-        console.log("photo does not exist")
     }
-    console.log("done")
     });
 }
 </script>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initialize"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api}}&libraries=places&callback=initialize"></script>
 
 {% endblock %}

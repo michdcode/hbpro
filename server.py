@@ -1,9 +1,9 @@
 """One minute getaway."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for
 from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
-# from goo_info import obtain_google_api_key
+from goo_info import obtain_google_api_key
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
@@ -44,7 +44,9 @@ def select_location():
     """Select location and validate location."""
 
     track_id = request.args.get("track_id")
-    return render_template("select_loc.html", track_id=track_id)
+    google_api = obtain_google_api_key()
+    return render_template("select_loc.html", track_id=track_id,
+                           google_api=google_api)
 
 
 @app.route('/play', methods=["GET"])
@@ -57,13 +59,6 @@ def getaway():
     lurl = request.args.get("URLphoto")
     locname = request.args.get("locname")
     return render_template("play.html", surl=surl, lurl=lurl, locname=locname)
-
-
-# @app.route('/goo')
-# def get_google_key():
-#     """Obtains google API key from server."""
-
-#     obtain_google_api_key()
 
 
 @app.route('/options')
