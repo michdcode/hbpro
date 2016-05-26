@@ -23,7 +23,7 @@ def obtain_song_URL(track_id):
     req.sign_request(sig_method, consumer, token=None)
     sURL = req.to_url()
     return sURL
-    #function above is largely taken from user filip at this location: 
+    #function above is largely taken from user filip at this location:
     #https://groups.google.com/forum/#!msg/7digital-api/cM8zuQoThiw/tTVRsMCvs7UJ
 
 

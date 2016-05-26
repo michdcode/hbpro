@@ -1,9 +1,12 @@
 """One minute getaway."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
 from goo_info import obtain_google_api_key
+from loginapi import grab_env_variables, requires_auth, callback_handling
+import json
+import requests
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
@@ -59,6 +62,35 @@ def getaway():
     lurl = request.args.get("URLphoto")
     locname = request.args.get("locname")
     return render_template("play.html", surl=surl, lurl=lurl, locname=locname)
+
+
+@app.route('/login')
+def social_user_login():
+    """Provides login using social media."""
+
+    env_variables = grab_env_variables()
+    AUTH0_CLIENT_SECRET = env_variables[0]
+    AUTH0_CLIENT_ID = env_variables[1]
+    AUTH0_DOMAIN = env_variables[2]
+    AUTH0_CALLBACK_URL = env_variables[3]
+    return render_template("login.html", AUTH0_CLIENT_SECRET=AUTH0_CLIENT_SECRET,
+                           AUTH0_CLIENT_ID=AUTH0_CLIENT_ID, AUTH0_DOMAIN=AUTH0_DOMAIN,
+                           AUTH0_CALLBACK_URL=AUTH0_CALLBACK_URL)
+
+
+@app.route('/callback')
+def handle_callback():
+    """Callback function for user social login."""
+    callback_handling()
+    return redirect('/dashboard')
+
+
+@app.route('/dashboard')
+@requires_auth
+def dashboard():
+    """User information page once logged in."""
+
+    return render_template("dashboard.html", user=session["profile"])
 
 
 @app.route('/options')
