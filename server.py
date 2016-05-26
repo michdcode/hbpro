@@ -74,7 +74,8 @@ def social_user_login():
     AUTH0_DOMAIN = env_variables[2]
     AUTH0_CALLBACK_URL = env_variables[3]
     return render_template("login.html", AUTH0_CLIENT_SECRET=AUTH0_CLIENT_SECRET,
-                           AUTH0_CLIENT_ID=AUTH0_CLIENT_ID, AUTH0_DOMAIN=AUTH0_DOMAIN,
+                           AUTH0_CLIENT_ID=AUTH0_CLIENT_ID,
+                           AUTH0_DOMAIN=AUTH0_DOMAIN,
                            AUTH0_CALLBACK_URL=AUTH0_CALLBACK_URL)
 
 
@@ -89,8 +90,15 @@ def handle_callback():
 @requires_auth
 def dashboard():
     """User information page once logged in."""
-
+    print session["profile"]
     return render_template("dashboard.html", user=session["profile"])
+
+
+@app.route('/logout')
+@requires_auth
+def logout():
+    """Provides logout and redirect to Homepage."""
+    return redirect('https://michdcode.auth0.com/v2/logout?returnTo=http://127.0.0.1:5000/')
 
 
 @app.route('/options')

@@ -21,17 +21,21 @@
   <script src="/static/js/app.js"> </script>
   <link href="/static/css/app.css" rel="stylesheet">
 {% endblock %}
+
 {% block content %}
-<body class="home">
+  <body class="home">
     <div class="container">
-        <div class="login-page clearfix">
-           <div class="login-box auth0-box before">
-              <img src="https://i.cloudup.com/StzWWrY34s.png" />
-                <h3>Time to login</h3>
-                <p>Please click the button below.</p>
-                <a class="btn btn-primary btn-lg btn-login btn-block">SignIn</a>
-              </div>
-            </div>
+      <div class="login-page clearfix">
+        <div class="login-box auth0-box before">
+          <img src="https://i.cloudup.com/StzWWrY34s.png" />
+          <h3>Time to login</h3>
+          <p>Please click the button below.</p>
+          <a class="btn btn-primary btn-lg btn-login btn-block">SignIn</a>
         </div>
-    </body>
+      </div>
+    </div>
+  </body>
 {% endblock %}
+
+
+<!-- the code on this page is largely taken from Auto0 official documentation. -->

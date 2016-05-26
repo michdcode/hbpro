@@ -5,8 +5,8 @@ from functools import wraps
 from flask import session, jsonify, request
 
 
-# Load Env variables
 def grab_env_variables():
+    """Gets variables from environ and stores in list."""
     env_variables = []
     env_variables.append(os.environ['AUTH0_CLIENT_SECRET'])
     env_variables.append(os.environ['AUTH0_CLIENT_ID'])
@@ -26,6 +26,7 @@ def requires_auth(f):
 
 
 def callback_handling():
+    """Handles callback operation."""
     code = request.args.get('code')
     json_header = {'content-type': 'application/json'}
     token_url = "https://{domain}/oauth/token".format(domain=os.environ['AUTH0_DOMAIN'])
@@ -44,3 +45,5 @@ def callback_handling():
     user_info = requests.get(user_url).json()
 
     session['profile'] = user_info
+
+# requires_auth & callback_handling functions are largely taken from Auto0 official documentation.
