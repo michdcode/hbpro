@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
 from goo_info import obtain_google_api_key
 from loginapi import grab_env_variables, requires_auth, callback_handling
+from model import *
 import json
 import requests
 
@@ -82,6 +83,7 @@ def social_user_login():
 @app.route('/callback')
 def handle_callback():
     """Callback function for user social login."""
+
     callback_handling()
     return redirect('/dashboard')
 
@@ -90,7 +92,7 @@ def handle_callback():
 @requires_auth
 def dashboard():
     """User information page once logged in."""
-    print session["profile"]
+
     return render_template("dashboard.html", user=session["profile"])
 
 
@@ -98,6 +100,7 @@ def dashboard():
 @requires_auth
 def logout():
     """Provides logout and redirect to Homepage."""
+
     return redirect('https://michdcode.auth0.com/v2/logout?returnTo=http://127.0.0.1:5000/')
 
 
