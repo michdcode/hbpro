@@ -1,0 +1,48 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block head %}
+    <title>What would you like to do now?</title>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <style>
+
+        body{
+            padding: 2em;
+            font-family: sans-serif;
+        }
+        #options{
+        }
+
+        #options > div {
+            width: 20%;
+            display: inline-block;
+            margin: 0 2em 2em 0;
+        }
+
+        #options > div > img {
+            height: 64px;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form action="/login" id="options">
+        <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
+        <input type="hidden" name="locname" id="locname" value="{{locname}}">
+        <input type="hidden" name="lurl" id="lurl" value="{{lurl}}">
+    </form>
+    <h1>Options</h1>
+     <div id="options">
+        {% for image in images %}
+            <div>
+                <img src="{{ image.source }}" alt="{{ image.label }}">
+                <button id="{{ image.id }}"><a href="{{ image.url }}">{{image.label}}</a></button>
+            </div>
+        {% endfor %}
+    </div>  
+
+{% endblock %}
+

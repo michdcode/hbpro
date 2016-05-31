@@ -6,6 +6,7 @@ from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
 from goo_info import obtain_google_api_key
 from loginapi import grab_env_variables, requires_auth, callback_handling
 from model import *
+from image_finder import get_option_images
 import json
 import requests
 
@@ -62,7 +63,8 @@ def getaway():
     surl = obtain_song_URL(track_id)
     lurl = request.args.get("URLphoto")
     locname = request.args.get("locname")
-    return render_template("play.html", surl=surl, lurl=lurl, locname=locname)
+    return render_template("play.html", surl=surl, lurl=lurl, locname=locname,
+                           track_id=track_id)
 
 
 @app.route('/login')
@@ -82,18 +84,23 @@ def social_user_login():
 
 @app.route('/callback')
 def handle_callback():
-    """Callback function for user social login."""
+    """Callback function for social login."""
 
     callback_handling()
     return redirect('/dashboard')
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=["GET"])
 @requires_auth
 def dashboard():
     """User information page once logged in."""
 
-    return render_template("dashboard.html", user=session["profile"])
+    track_id = request.args.get("track_id")
+    lurl = request.args.get("lurl")
+    locname = request.args.get("locname")
+
+    return render_template("dashboard.html", user=session["profile"], lurl=lurl, locname=locname,
+                           track_id=track_id, images=images)
 
 
 @app.route('/logout')
@@ -104,11 +111,17 @@ def logout():
     return redirect('https://michdcode.auth0.com/v2/logout?returnTo=http://127.0.0.1:5000/')
 
 
-@app.route('/options')
+@app.route('/options', methods=["GET"])
 def provide_options():
     """Provides options once getaway has finished."""
 
-    return render_template("options.html")
+    track_id = request.args.get("track_id")
+    lurl = request.args.get("lurl")
+    locname = request.args.get("locname")
+    images = get_option_images()
+
+    return render_template("options.html", lurl=lurl, locname=locname,
+                           track_id=track_id, images=images)
 
 if __name__ == "__main__":
     app.run(debug=True)
