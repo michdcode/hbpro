@@ -3,7 +3,7 @@
 {% block head %}
     <title>What would you like to do now?</title>
 
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 
     <style>
 
@@ -29,11 +29,6 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/login" id="options">
-        <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
-        <input type="hidden" name="locname" id="locname" value="{{locname}}">
-        <input type="hidden" name="lurl" id="lurl" value="{{lurl}}">
-    </form>
     <h1>Options</h1>
      <div id="options">
         {% for image in images %}
@@ -42,7 +37,6 @@
                 <button id="{{ image.id }}"><a href="{{ image.url }}">{{image.label}}</a></button>
             </div>
         {% endfor %}
-    </div>  
-
+        </div>  
 {% endblock %}
 

@@ -7,8 +7,10 @@ from goo_info import obtain_google_api_key
 from loginapi import grab_env_variables, requires_auth, callback_handling
 from model import *
 from image_finder import get_option_images
+from queries import user_look_up, checkin_user
 import json
 import requests
+
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
@@ -49,6 +51,7 @@ def select_location():
     """Select location and validate location."""
 
     track_id = request.args.get("track_id")
+    session['track_id'] = track_id
     google_api = obtain_google_api_key()
     return render_template("select_loc.html", track_id=track_id,
                            google_api=google_api)
@@ -58,16 +61,21 @@ def select_location():
 def getaway():
     """Plays song and shows picture."""
 
-    track_id = request.args.get("track_id")
+    # track_id = request.args.get("track_id")
+    track_id = session['track_id']
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)
     lurl = request.args.get("URLphoto")
+    session['lurl'] = lurl
     locname = request.args.get("locname")
+    session['locname'] = locname
+    lurl = session['lurl']
+    locname = session['locname']
     return render_template("play.html", surl=surl, lurl=lurl, locname=locname,
                            track_id=track_id)
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET"])
 def social_user_login():
     """Provides login using social media."""
 
@@ -76,6 +84,7 @@ def social_user_login():
     AUTH0_CLIENT_ID = env_variables[1]
     AUTH0_DOMAIN = env_variables[2]
     AUTH0_CALLBACK_URL = env_variables[3]
+
     return render_template("login.html", AUTH0_CLIENT_SECRET=AUTH0_CLIENT_SECRET,
                            AUTH0_CLIENT_ID=AUTH0_CLIENT_ID,
                            AUTH0_DOMAIN=AUTH0_DOMAIN,
@@ -95,12 +104,16 @@ def handle_callback():
 def dashboard():
     """User information page once logged in."""
 
-    track_id = request.args.get("track_id")
-    lurl = request.args.get("lurl")
-    locname = request.args.get("locname")
+    track_id = session.get("track_id")
+    lurl = session.get("lurl")
+    locname = session.get("locname")
+    user = session["profile"]
+    user_look_up(user)
+    print track_id, lurl, locname
+    # checkin_user(user)
 
-    return render_template("dashboard.html", user=session["profile"], lurl=lurl, locname=locname,
-                           track_id=track_id, images=images)
+    return render_template("dashboard.html", user=user, lurl=lurl, locname=locname,
+                           track_id=track_id)
 
 
 @app.route('/logout')
@@ -115,13 +128,11 @@ def logout():
 def provide_options():
     """Provides options once getaway has finished."""
 
-    track_id = request.args.get("track_id")
-    lurl = request.args.get("lurl")
-    locname = request.args.get("locname")
     images = get_option_images()
+    lurl = session.get("lurl")
+    locname = session.get("locname")
 
-    return render_template("options.html", lurl=lurl, locname=locname,
-                           track_id=track_id, images=images)
+    return render_template("options.html", images=images, lurl=lurl, locname=locname)
 
 if __name__ == "__main__":
     app.run(debug=True)

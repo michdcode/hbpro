@@ -41,7 +41,8 @@ def get_song_info(user_song):
     # result one: yes: http://api.7digital.com/1.2/track/search?
     # q=happy&country=US&oauth_consumer_key=[omitted]&usageTypes=download
     # """
-    root = ET.XML(result.text)
+    asc2 = result.text.encode('ascii', 'ignore')
+    root = ET.XML(asc2)
     return root
     # returns an object <Element 'response' at 0x10ae65e10>
 
