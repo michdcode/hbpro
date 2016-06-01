@@ -46,4 +46,4 @@ def callback_handling():
 
     session['profile'] = user_info
 
-# requires_auth & callback_handling functions are largely taken from Auto0 official documentation.
+# requires_auth & callback_handling functions are largely taken from Auth0 official documentation.

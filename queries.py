@@ -5,28 +5,38 @@ import json
 
 
 def user_look_up(user):
-    """Checks if user is in database and if not adds user"""
+    """Checks if user is in database and if not adds user to database."""
 
-    print
     auser_find = user['user_id'].split("|")
     auser_id = auser_find[1]
     aname = user['name']
     #only Twitter has location information
-    if user['location']:
-        auser_location = user['location']
-    else:
-        auser_location = None
+
+    track_id = session.get("track_id")
+    lurl = session.get("lurl")
+    locname = session.get("locname")
+    print track_id, lurl, locname
 
     if not db.session.query(User).filter(User.user_id == auser_id).first():
-        user = Users(user_id=auser_id, name=aname, user_location=auser_location)
-        db.sesssion.add(user)
-        db.sesssion.commit()
+        newuser = User(user_id=auser_id, name=aname)
+        db.session.add(newuser)
+        db.session.commit()
 
 
-def checkin_user(user):
-    """Checks in user and grabs user information from database."""
+# def checkin_user(user):
+#     """Checks in user and grabs user information from database."""
 
-    user_find = user['user_id'].split("|")
-    user_id = user_find[1]
-    db_user = User.query.filter(User.user_id).first()
-    print user_id, db_user
+#     user_find = user['user_id'].split("|")
+#     user_id = user_find[1]
+#     db_user = User.query.filter(User.user_id).first()
+#     print user_id, db_user
+
+
+def save_current_getaway():
+    """Saves current getaway information to database."""
+
+    atrack_id = session.get("track_id")
+    alurl = session.get("lurl")
+    alocname = session.get("locname")
+
+

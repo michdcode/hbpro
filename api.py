@@ -37,10 +37,9 @@ def get_song_info(user_song):
     url = 'http://api.7digital.com/1.2/track/search?'
 
     result = requests.get(url, payload)
-    # """test one: is the URL encoded properly
+    # test one: is the URL encoded properly
     # result one: yes: http://api.7digital.com/1.2/track/search?
     # q=happy&country=US&oauth_consumer_key=[omitted]&usageTypes=download
-    # """
     asc2 = result.text.encode('ascii', 'ignore')
     root = ET.XML(asc2)
     return root

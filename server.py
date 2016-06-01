@@ -5,10 +5,11 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
 from goo_info import obtain_google_api_key
 from loginapi import grab_env_variables, requires_auth, callback_handling
-from model import *
+from model import connect_to_db
 from image_finder import get_option_images
-from queries import user_look_up, checkin_user
+from queries import user_look_up
 import json
+from flask_debugtoolbar import DebugToolbarExtension
 
 
 # imported Flash class above, then create an instance of it below
@@ -64,12 +65,13 @@ def getaway():
     track_id = session['track_id']
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)
-    lurl = request.args.get("URLphoto")
+
+    lurl = request.args.get("URLphoto", session['lurl'])
+    locname = request.args.get("locname", session['locname'])
+
     session['lurl'] = lurl
-    locname = request.args.get("locname")
     session['locname'] = locname
-    lurl = session['lurl']
-    locname = session['locname']
+
     return render_template("play.html", surl=surl, lurl=lurl, locname=locname,
                            track_id=track_id)
 
@@ -107,9 +109,8 @@ def dashboard():
     lurl = session.get("lurl")
     locname = session.get("locname")
     user = session["profile"]
-    user_look_up(user)
     print track_id, lurl, locname
-    checkin_user(user)
+    user_look_up(user)
 
     return render_template("dashboard.html", user=user, lurl=lurl, locname=locname,
                            track_id=track_id)
@@ -134,5 +135,9 @@ def provide_options():
     return render_template("options.html", images=images, lurl=lurl, locname=locname)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    connect_to_db(app)
+    app.debug = True
+    DebugToolbarExtension(app)
+    app.run()
+
 #server only runs if executed from terminal, cannot be imported module

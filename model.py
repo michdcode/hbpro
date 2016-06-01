@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, request, session
+# from flask import Flask, request, session
 
 db = SQLAlchemy()
 
@@ -9,19 +9,16 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    #separate app_id because google & facebook could theoretically have same user_id
-    app_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.String(50), nullable=False, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    user_location = db.Column(db.String(75), nullable=True)
     created = db.Column(db.DateTime, default=db.func.now())
 
     def __repr__(self):
         """Provides helpful information on screen."""
 
-        return "<User app_id=%s user_id=%s name=%s>" % (self.app_id,
-                                                        self.user_id,
-                                                        self.name)
+        return "<User user_id=%s name=%s created=%s>" % (self.user_id,
+                                                         self.name,
+                                                         self.created)
 
 
 class Getaway(db.Model):
@@ -30,7 +27,7 @@ class Getaway(db.Model):
     __tablename__ = "getaways"
 
     getaway_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    app_id = db.Column(db.Integer, db.ForeignKey('users.app_id'))
+    user_id = db.Column(db.String(50), db.ForeignKey('users.user_id'))
     track_id = db.Column(db.Integer, db.ForeignKey('songs.track_id'))
     loc_name = db.Column(db.String, db.ForeignKey('locations.loc_name'))
     pict_URL = db.Column(db.String(200), nullable=False)
@@ -52,7 +49,7 @@ class Getaway(db.Model):
         """Provides helpful information on screen."""
 
         return "<Getaway getaway_id=%s app_id=%s track_id=%s loc_name=%s>" % (
-            self.getaway_id, self.app_id, self.track_id, self.loc_name)
+            self.getaway_id, self.user_id, self.track_id, self.loc_name)
 
 
 class Song(db.Model):
