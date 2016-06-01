@@ -13,12 +13,13 @@ class User(db.Model):
     app_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(100), nullable=False)
+    user_location = db.Column(db.String(75), nullable=True)
     created = db.Column(db.DateTime, default=db.func.now())
 
     def __repr__(self):
         """Provides helpful information on screen."""
 
-        return "<User app_id=%d user_id=%s name=%s>" % (self.app_id,
+        return "<User app_id=%s user_id=%s name=%s>" % (self.app_id,
                                                         self.user_id,
                                                         self.name)
 
@@ -50,7 +51,7 @@ class Getaway(db.Model):
     def __repr__(self):
         """Provides helpful information on screen."""
 
-        return "<Getaway getaway_id=%d app_id=%d track_id=%d loc_name=%s>" % (
+        return "<Getaway getaway_id=%s app_id=%s track_id=%s loc_name=%s>" % (
             self.getaway_id, self.app_id, self.track_id, self.loc_name)
 
 
@@ -64,7 +65,7 @@ class Song(db.Model):
     def __repr__(self):
         """Provides helpful information on screen."""
 
-        return "<Song track_id=%d>" % (self.track_id)
+        return "<Song track_id=%s>" % (self.track_id)
 
 
 class Location(db.Model):
@@ -87,6 +88,7 @@ def connect_to_db(app):
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///getawaysdb'
     app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
 

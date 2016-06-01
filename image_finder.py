@@ -14,7 +14,7 @@ def get_option_images():
         {"id": 3,
          "source": "static/img/save.png",
          "url": "/login",
-         "label": "save getaway (requires login)"},
+         "label": "save getaway (login)"},
         {"id": 4,
          "source": "static/img/black-plane.png",
          "url": "https://www.expedia.com/",
@@ -26,6 +26,6 @@ def get_option_images():
         {"id": 6,
          "source": "static/img/share.png",
          "url": "/login",
-         "label": "share getaway (requires login)"}
+         "label": "share getaway (login)"}
     ]
     return images

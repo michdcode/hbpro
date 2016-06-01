@@ -9,7 +9,6 @@ from model import *
 from image_finder import get_option_images
 from queries import user_look_up, checkin_user
 import json
-import requests
 
 
 # imported Flash class above, then create an instance of it below
@@ -110,7 +109,7 @@ def dashboard():
     user = session["profile"]
     user_look_up(user)
     print track_id, lurl, locname
-    # checkin_user(user)
+    checkin_user(user)
 
     return render_template("dashboard.html", user=user, lurl=lurl, locname=locname,
                            track_id=track_id)
