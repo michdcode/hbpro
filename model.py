@@ -29,8 +29,7 @@ class Getaway(db.Model):
     getaway_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.String(50), db.ForeignKey('users.user_id'))
     track_id = db.Column(db.Integer, db.ForeignKey('songs.track_id'))
-    loc_name = db.Column(db.String, db.ForeignKey('locations.loc_name'))
-    pict_URL = db.Column(db.String(200), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
     created = db.Column(db.DateTime, default=db.func.now())
 
     # Define a relationship to user
@@ -48,8 +47,8 @@ class Getaway(db.Model):
     def __repr__(self):
         """Provides helpful information on screen."""
 
-        return "<Getaway getaway_id=%s app_id=%s track_id=%s loc_name=%s>" % (
-            self.getaway_id, self.user_id, self.track_id, self.loc_name)
+        return "<Getaway getaway_id=%s user_id=%s track_id=%s location_id=%s>" % (
+            self.getaway_id, self.user_id, self.track_id, self.location_id)
 
 
 class Song(db.Model):
@@ -57,7 +56,8 @@ class Song(db.Model):
 
     __tablename__ = "songs"
 
-    track_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    track_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    seven_digital_track_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         """Provides helpful information on screen."""
@@ -70,7 +70,8 @@ class Location(db.Model):
 
     __tablename__ = "locations"
 
-    loc_name = db.Column(db.String(100), nullable=False, primary_key=True)
+    location_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    loc_name = db.Column(db.String(100), nullable=False)
     pict_URL = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):

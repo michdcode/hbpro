@@ -1,13 +1,13 @@
 """One minute getaway."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, redirect, session, url_for, jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify, flash
 from api import obtain_song_URL, get_song_info, get_track_ids, get_song_id_title
 from goo_info import obtain_google_api_key
 from loginapi import grab_env_variables, requires_auth, callback_handling
 from model import connect_to_db
 from image_finder import get_option_images
-from queries import user_look_up
+from queries import check_new_user, checkin_user, save_current_getaway, prior_getaways
 import json
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -109,11 +109,30 @@ def dashboard():
     lurl = session.get("lurl")
     locname = session.get("locname")
     user = session["profile"]
-    print track_id, lurl, locname
-    user_look_up(user)
+    check_new_user(user)
 
     return render_template("dashboard.html", user=user, lurl=lurl, locname=locname,
                            track_id=track_id)
+
+@app.route('/save_getaway', methods=["GET"])
+@requires_auth
+def save_getaway():
+
+    user = session["profile"]
+    getaway = save_current_getaway(user)
+    return "Your Getaway has been saved %d" % getaway.getaway_id
+    # flash("Your Getaway has been saved %d" % getaway.getaway_id)
+    # # return redirect("/dashboard")
+
+@app.route('/getaways', methods=["GET"])
+@requires_auth
+def getaways():
+
+    user = session["profile"]
+    user_getaways = prior_getaways(user)
+    print user_getaways
+    return "getaw = %d" % len(user_getaways)
+
 
 
 @app.route('/logout')
