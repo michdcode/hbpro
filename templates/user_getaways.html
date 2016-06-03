@@ -1,0 +1,23 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block head %}
+    <title>Replay Getaway</title>
+
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+    <style>
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Replay Prior Getaways</h1>
+    <h2>Choose Getaway:</h2>
+    <h3>Song &#8195; Location</h3>
+     <form id="user-getaways" action="/replay">
+        {% for getaway in user_getaways %}
+            <input type="radio" name="getaway-select"> {{getaway.song.song_name}}  &#8195; {{getaway.location.loc_name}}<br></a></p>
+            </div>
+        {% endfor %}
+        <input type="submit" value="Pick Getaway" id="btn-pick-primary">
+    </form>
+{% endblock %}

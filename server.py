@@ -52,9 +52,11 @@ def select_location():
 
     track_id = request.args.get("track_id")
     session['track_id'] = track_id
+    song_name = request.args.get("song_name")
+    session['song_name'] = song_name
     google_api = obtain_google_api_key()
     return render_template("select_loc.html", track_id=track_id,
-                           google_api=google_api)
+                           google_api=google_api, song_name=song_name)
 
 
 @app.route('/play', methods=["GET"])
@@ -66,14 +68,16 @@ def getaway():
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)
 
-    lurl = request.args.get("URLphoto", session['lurl'])
-    locname = request.args.get("locname", session['locname'])
+    lurl = request.args.get("URLphoto")
+    locname = request.args.get("locname")
+    song_name = session['song_name']
 
     session['lurl'] = lurl
     session['locname'] = locname
+    session['song_name'] = song_name
 
     return render_template("play.html", surl=surl, lurl=lurl, locname=locname,
-                           track_id=track_id)
+                           track_id=track_id, song_name=song_name)
 
 
 @app.route('/login', methods=["GET"])
@@ -108,11 +112,13 @@ def dashboard():
     track_id = session.get("track_id")
     lurl = session.get("lurl")
     locname = session.get("locname")
+    song_name = session.get("song_name")
     user = session["profile"]
     check_new_user(user)
 
     return render_template("dashboard.html", user=user, lurl=lurl, locname=locname,
-                           track_id=track_id)
+                           track_id=track_id, song_name=song_name)
+
 
 @app.route('/save_getaway', methods=["GET"])
 @requires_auth
@@ -120,9 +126,8 @@ def save_getaway():
 
     user = session["profile"]
     getaway = save_current_getaway(user)
-    return "Your Getaway has been saved %d" % getaway.getaway_id
-    # flash("Your Getaway has been saved %d" % getaway.getaway_id)
-    # # return redirect("/dashboard")
+    return render_template("getaway_saved.html")
+
 
 @app.route('/getaways', methods=["GET"])
 @requires_auth
@@ -130,9 +135,7 @@ def getaways():
 
     user = session["profile"]
     user_getaways = prior_getaways(user)
-    print user_getaways
-    return "getaw = %d" % len(user_getaways)
-
+    return render_template("user_getaways.html", user_getaways=user_getaways)
 
 
 @app.route('/logout')
@@ -150,8 +153,10 @@ def provide_options():
     images = get_option_images()
     lurl = session.get("lurl")
     locname = session.get("locname")
+    song_name = session.get("song_name")
 
-    return render_template("options.html", images=images, lurl=lurl, locname=locname)
+    return render_template("options.html", images=images, lurl=lurl, locname=locname,
+                           song_name=song_name)
 
 if __name__ == "__main__":
     connect_to_db(app)

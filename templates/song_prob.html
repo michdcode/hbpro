@@ -13,6 +13,7 @@
 <!-- need to send song id associated with chosen song to select_loc -->
     {% for song in songs %}
   <input type="radio" name="track_id" value="{{song[0]}}">{{song[1]}}<br>
+  <input type="hidden" name="song_name" value="{{song[1]}}">
     {% endfor %}
     <input type="submit" value="Pick Song" id="btn-pick-primary">
 </form>{% endblock %}
