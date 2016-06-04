@@ -82,14 +82,22 @@ class Location(db.Model):
 
 
 ################################################################################
-def connect_to_db(app):
+def connect_to_db(app, databaseURI='postgresql:///getawaysdb'):
     """Connect the database to Flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///getawaysdb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = databaseURI
     app.config['SQLALCHEMY_ECHO'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+
+def example_data():
+    jane = User(name="jane", user_id="123")
+    sf = Location(loc_name="San Francisco", pict_URL="http://www.picture.com/puppy")
+    asong = Song(seven_digital_track_id=3326, song_name="happy")
+    getaway = Getaway(user=jane, location=sf, song=asong)
+    db.session.add_all([jane, sf, asong, getaway])
+    db.session.commit()
 
 if __name__ == "__main__":
     from server import app

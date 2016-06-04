@@ -12,12 +12,13 @@
 {% block content %}
     <h1>Replay Prior Getaways</h1>
     <h2>Choose Getaway:</h2>
-    <h3>Song &#8195; Location</h3>
-     <form id="user-getaways" action="/replay">
+     <form id="user-getaways" action="/replay" method="get">
         {% for getaway in user_getaways %}
-            <input type="radio" name="getaway-select"> {{getaway.song.song_name}}  &#8195; {{getaway.location.loc_name}}<br></a></p>
-            </div>
+            <input type="radio" name ="getaway_id" value="{{getaway.getaway_id}}"> <strong>Song: </strong> {{getaway.song.song_name}}  &#8195; <strong>Location: </strong>{{getaway.location.loc_name}}<br>
+            <input type="hidden" name="locname"  value="{{getaway.location.loc_name}}">
+            <input type="hidden" name="URLphoto" value="{{getaway.location.pict_URL}}">
+            <input type="hidden" name="song_name" value="{{getaway.song.song_name}}">
         {% endfor %}
-        <input type="submit" value="Pick Getaway" id="btn-pick-primary">
+        <input type="submit" value="Pick Replay" id="btn-pick-replay">
     </form>
 {% endblock %}

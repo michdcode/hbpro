@@ -7,7 +7,7 @@ from goo_info import obtain_google_api_key
 from loginapi import grab_env_variables, requires_auth, callback_handling
 from model import connect_to_db
 from image_finder import get_option_images
-from queries import check_new_user, checkin_user, save_current_getaway, prior_getaways
+from queries import check_new_user, checkin_user, save_current_getaway, prior_getaways, get_getaway
 import json
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -138,11 +138,24 @@ def getaways():
     return render_template("user_getaways.html", user_getaways=user_getaways)
 
 
+@app.route('/replay', methods=["GET"])
+def replay_getaway():
+
+    getaway_id = request.args.get("getaway_id")
+    getaway = get_getaway(getaway_id)
+    seven_digital_track_id = int(getaway.song.seven_digital_track_id)
+
+    surl = obtain_song_URL(seven_digital_track_id)
+
+    return render_template("replay_getaway.html", surl=surl, getaway=getaway)
+
+
 @app.route('/logout')
 @requires_auth
 def logout():
     """Provides logout and redirect to Homepage."""
 
+    session.clear()
     return redirect('https://michdcode.auth0.com/v2/logout?returnTo=http://127.0.0.1:5000/')
 
 

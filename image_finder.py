@@ -26,6 +26,6 @@ def get_option_images():
         {"id": 6,
          "source": "static/img/share.png",
          "url": "/login",
-         "label": "share getaway (login)"}
+         "label": "replay prior getaways (login)"}
     ]
     return images

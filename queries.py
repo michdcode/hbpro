@@ -76,3 +76,10 @@ def prior_getaways(user):
     getaways = db_user.getaways
 
     return getaways
+
+
+def get_getaway(getaway_id):
+
+    getaway = db.session.query(Getaway).filter_by(getaway_id=getaway_id).first()
+
+    return getaway
