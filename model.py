@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-# from flask import Flask, request, session
 
 db = SQLAlchemy()
 

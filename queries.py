@@ -1,32 +1,28 @@
 from model import User, Getaway, Song, Location, db
 
 
-def check_new_user(user):
+def check_new_user(user_id, user_name):
     """Checks if user is in database and if not adds user to database."""
 
-    auser_find = user['user_id'].split("|")
-    auser_id = auser_find[1]
-    aname = user['name']
-
-    if not db.session.query(User).filter(User.user_id == auser_id).first():
-        newuser = User(user_id=auser_id, name=aname)
+    if not db.session.query(User).filter(User.user_id == user_id).first():
+        newuser = User(user_id=user_id, name=user_name)
         db.session.add(newuser)
         db.session.commit()
+        return newuser
 
 
-def checkin_user(user):
+
+def checkin_user(user_id):
     """Grabs user information from database."""
 
-    user_find = user['user_id'].split("|")
-    user_id = user_find[1]
     db_user = db.session.query(User).filter(User.user_id == user_id).first()
     return db_user
 
 
-def save_current_getaway(user, track_id, location_url, location_name, song_name):
+def save_current_getaway(user_id, track_id, location_url, location_name, song_name):
     """Saves current getaway information to database."""
 
-    db_user = checkin_user(user)
+    db_user = checkin_user(user_id)
     db_song = get_or_create_song(track_id, song_name)
     db_location = get_or_create_location(location_name, location_url)
 
@@ -40,7 +36,7 @@ def save_current_getaway(user, track_id, location_url, location_name, song_name)
 
 
 def get_or_create_song(seven_digital_track_id, song_name):
-    """Gets song from database or saves location if not in database."""
+    """Gets song from database or saves song if not in database."""
 
     song = db.session.query(Song).filter(Song.seven_digital_track_id == seven_digital_track_id).first()
     if not song:
@@ -63,9 +59,9 @@ def get_or_create_location(loc_name, pict_URL):
     return location
 
 
-def prior_getaways(user):
+def prior_getaways(user_id):
 
-    db_user = checkin_user(user)
+    db_user = checkin_user(user_id)
     getaways = db_user.getaways
 
     return getaways

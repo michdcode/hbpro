@@ -63,7 +63,7 @@ def select_location():
 def getaway():
     """Plays song and shows picture."""
 
-    # track_id = request.args.get("track_id")
+    track_id = request.args.get("track_id")
     track_id = session['track_id']
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)
@@ -114,7 +114,10 @@ def dashboard():
     locname = session.get("locname")
     song_name = session.get("song_name")
     user = session["profile"]
-    check_new_user(user)
+    user_find = user['user_id'].split("|")
+    user_id = user_find[1]
+    user_name = user['name']
+    check_new_user(user_id, user_name)
 
     return render_template("dashboard.html", user=user, lurl=lurl, locname=locname,
                            track_id=track_id, song_name=song_name)
@@ -125,11 +128,13 @@ def dashboard():
 def save_getaway():
 
     user = session.get("profile")
+    user_find = user['user_id'].split("|")
+    user_id = user_find[1]
     track_id = session.get("track_id")
     location_url = session.get("lurl")
     location_name = session.get("locname")
     song_name = session.get("song_name")
-    getaway = save_current_getaway(user, track_id, location_url, location_name,
+    getaway = save_current_getaway(user_id, track_id, location_url, location_name,
                                    song_name)
     return render_template("getaway_saved.html")
 
@@ -138,8 +143,10 @@ def save_getaway():
 @requires_auth
 def getaways():
 
-    user = session["profile"]
-    user_getaways = prior_getaways(user)
+    user = session.get("profile")
+    user_find = user['user_id'].split("|")
+    user_id = user_find[1]
+    user_getaways = prior_getaways(user_id)
     return render_template("user_getaways.html", user_getaways=user_getaways)
 
 

@@ -5,7 +5,7 @@ from model import *
 from flask import Flask, request, session
 
 
-class FlaskTests(TestCase):
+class DatabaseTests(TestCase):
     def setUp(self):
         """Stuff to do before every test."""
 
@@ -30,13 +30,12 @@ class FlaskTests(TestCase):
     def test_checkin_user(self):
         """Tests checkin_user function."""
 
-        db_user = checkin_user({"user_id": "bla|123"})
+        db_user = checkin_user("123")
         self.assertIsNotNone(db_user)
         self.assertEqual(db_user.name, "jane")
         self.assertIsNotNone(db_user.getaways)
         self.assertEqual(len(db_user.getaways), 1)
-
-        db_user2 = checkin_user({"user_id": "bla|0000"})
+        db_user2 = checkin_user("456")
         self.assertIsNone(db_user2)
 
     def test_get_or_create_song(self):
@@ -64,48 +63,35 @@ class FlaskTests(TestCase):
         self.assertIsNotNone(db_location.pict_URL)
         self.assertEqual(db_location.loc_name, "San Diego")
 
-    # def test_save_current_getaway(self):
-    #     """Tests save_current_getaway function."""
+    def test_save_current_getaway(self):
+        """Tests save_current_getaway function."""
 
-    #     with app.test_request_context():
-    #         with self.client as c:
-    #             with c.session_transaction() as sess:
-    #                 sess['user'] = "{u'user_id': u'auth0|123', u'name': u'jane'}"
-    #                 sess['lurl'] = "http://www.picture.com/puppy"
-    #                 sess['locname'] = "San Francisco"
-    #                 sess['track_id'] = 3326
-    #                 sess['song_name'] = "happy"
-    #                 sess['name'] = "jane"
-    #                 self.assertEqual(sess["locname"], "San Francisco")
-    #                 db_getaway = save_current_getaway({"user_id": "bla|123"})
-    #     #             #db_getaway = save_current_getaway(flask.sess['user']) - doesn't work either
+        db_save_current_getaway = save_current_getaway("123", 3326, "http://www.picture.com/puppy",
+                                                       "San Francisco", "happy")
+        self.assertIsNotNone(db_save_current_getaway.getaway_id)
+        self.assertIsNotNone(db_save_current_getaway.created)
+        self.assertEqual(db_save_current_getaway.location.loc_name, "San Francisco")
+        self.assertIs(db_save_current_getaway.getaway_id, 2)
 
-    #     # with app.test_client() as c:
-    #     #     rv = c.get('/')
-    #     #     assert flask.session['user'] == "{u'user_id': u'auth0|123', u'name': u'jane'}"
+    def test_check_new_user(self):
+        """Tests check_new_user function."""
 
-    def test_homepage_status(self):
-        """Tests that server is running for index page."""
+        db_check_new_user = check_new_user("123", "jane")
+        self.assertFalse(db_check_new_user)
+        db_check_new_user = check_new_user("456", "mary")
+        self.assertIsNotNone(db_check_new_user.user_id)
 
-        result = self.client.get('/')
-        self.assertEqual(result.status_code, 200)
+    def test_prior_getaways(self):
+        """Tests prior_getaways function."""
 
-    def test_homepage_contents(self):
-        """Tests that home.html is rendering at index location."""
+        db_prior_getaways = prior_getaways("123")
+        self.assertIsNotNone(db_prior_getaways)
 
-        result = self.client.get('/')
-        self.assertIn('<title>One Minute Getaway</title>', result.data)
+    def test_get_getaway(self):
+        """Tests get_getaway function"""
 
-    # def test_no_song_found_contents(self):
-    #     """Tests that no_song_found is rendering when applicable."""
-
-    #     result = self.client.post('/song_process', data={'sname': 'paieut'})
-    #     print result.data
-    #     # self.assertIn('<title>Song Not Found</title>', result.data)
-
-    # def test_song_problem_contents(self):
-
-
+        db_getaway = get_getaway(1)
+        self.assertIsNotNone(db_getaway)
 
 if __name__ == "__main__":
     main()
