@@ -91,6 +91,7 @@ def connect_to_db(app, databaseURI='postgresql:///getawaysdb'):
     db.app = app
     db.init_app(app)
 
+
 def example_data():
     jane = User(name="jane", user_id="123")
     sf = Location(loc_name="San Francisco", pict_URL="http://www.picture.com/puppy")

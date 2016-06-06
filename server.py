@@ -124,8 +124,13 @@ def dashboard():
 @requires_auth
 def save_getaway():
 
-    user = session["profile"]
-    getaway = save_current_getaway(user)
+    user = session.get("profile")
+    track_id = session.get("track_id")
+    location_url = session.get("lurl")
+    location_name = session.get("locname")
+    song_name = session.get("song_name")
+    getaway = save_current_getaway(user, track_id, location_url, location_name,
+                                   song_name)
     return render_template("getaway_saved.html")
 
 

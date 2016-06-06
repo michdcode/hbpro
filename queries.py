@@ -1,6 +1,4 @@
-from flask import Flask, request, session, url_for, jsonify
 from model import User, Getaway, Song, Location, db
-import json
 
 
 def check_new_user(user):
@@ -9,7 +7,6 @@ def check_new_user(user):
     auser_find = user['user_id'].split("|")
     auser_id = auser_find[1]
     aname = user['name']
-    #only Twitter has location information
 
     if not db.session.query(User).filter(User.user_id == auser_id).first():
         newuser = User(user_id=auser_id, name=aname)
@@ -26,16 +23,12 @@ def checkin_user(user):
     return db_user
 
 
-def save_current_getaway(user):
+def save_current_getaway(user, track_id, location_url, location_name, song_name):
     """Saves current getaway information to database."""
-    db_user = checkin_user(user)
 
-    atrack_id = session.get("track_id")
-    alurl = session.get("lurl")
-    alocname = session.get("locname")
-    asongname = session.get("song_name")
-    db_song = get_or_create_song(atrack_id, asongname)
-    db_location = get_or_create_location(alocname, alurl)
+    db_user = checkin_user(user)
+    db_song = get_or_create_song(track_id, song_name)
+    db_location = get_or_create_location(location_name, location_url)
 
     newgetaway = Getaway(user_id=db_user.user_id, track_id=db_song.track_id,
                          location_id=db_location.location_id)

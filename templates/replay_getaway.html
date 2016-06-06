@@ -1,0 +1,34 @@
+<!doctype html>
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block content %}
+<!-- This div contains the image -->
+    <div id="photodisplay">Enjoy your getaway to {{getaway.location.loc_name}} again!
+        <img id="photo" src={{getaway.location.pict_URL}}></img>
+    </div>
+
+<!-- This div contains the song URL -->
+    <div id="song-player">
+            <!-- to hide player delete word controls below -->
+        <audio src={{surl}} controls autoplay>
+        </audio>
+    </div>
+
+<!-- This is the div for attributions -->
+    <div id="7digital"> 
+        <img src="/static/img/7d_wordmark_colour_RGB_Small.png">song</img>
+    </div>
+    <div id="google"> 
+        <img src="/static/img/powered_by_google_on_white.png">photo</img>
+    </div>
+
+<form action="/dashboard" options id="dashboard">
+<input type="submit" value="Options" id="btn-primary-play">
+</form>
+
+
+{% endblock %}
