@@ -12,13 +12,6 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     created = db.Column(db.DateTime, default=db.func.now())
 
-    def __repr__(self):
-        """Provides helpful information on screen."""
-
-        return "<User user_id=%s name=%s created=%s>" % (self.user_id,
-                                                         self.name,
-                                                         self.created)
-
 
 class Getaway(db.Model):
     """Getaway information."""
@@ -43,12 +36,6 @@ class Getaway(db.Model):
     location = db.relationship("Location", backref=db.backref("getaways",
                                                               order_by=getaway_id))
 
-    def __repr__(self):
-        """Provides helpful information on screen."""
-
-        return "<Getaway getaway_id=%s user_id=%s track_id=%s location_id=%s>" % (
-            self.getaway_id, self.user_id, self.track_id, self.location_id)
-
 
 class Song(db.Model):
     """Songs for getaways."""
@@ -59,11 +46,6 @@ class Song(db.Model):
     seven_digital_track_id = db.Column(db.Integer, nullable=False)
     song_name = db.Column(db.String(75), nullable=False)
 
-    def __repr__(self):
-        """Provides helpful information on screen."""
-
-        return "<Song track_id=%s>" % (self.track_id)
-
 
 class Location(db.Model):
     """Locations of getaways."""
@@ -73,11 +55,6 @@ class Location(db.Model):
     location_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     loc_name = db.Column(db.String(100), nullable=False)
     pict_URL = db.Column(db.String(200), nullable=False)
-
-    def __repr__(self):
-        """Provides helpful information on screen."""
-
-        return "<Location loc_name=%s>" % (self.loc_name)
 
 
 ################################################################################

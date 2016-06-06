@@ -3,6 +3,12 @@ from queries import *
 from server import app
 from model import *
 from flask import Flask, request, session
+# to test:
+# python unittest_queries.py
+# coverage
+# coverage run --source=. --omit=env/* unittest_queries.py
+# coverage report -m > testresults.txt
+# subl testresults.txt
 
 
 class DatabaseTests(TestCase):
