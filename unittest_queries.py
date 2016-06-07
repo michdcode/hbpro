@@ -5,10 +5,11 @@ from model import *
 from flask import Flask, request, session
 # to test:
 # python unittest_queries.py
-# coverage
+# to see coverage report:
 # coverage run --source=. --omit=env/* unittest_queries.py
 # coverage report -m > testresults.txt
 # subl testresults.txt
+# pretty html results:
 # coverage html
 # cd htmlcov/
 # open index.html
@@ -115,13 +116,20 @@ class ServerTests(TestCase):
         with self.client as c:
             with c.session_transaction() as sess:
                 sess['user_id'] = 1
-                sess['user'] = "{u'user_id': u'auth0|123', u'name': u'jane'}"
+                sess['user'] = {u'user_id': u'auth0|123', u'name': u'jane'}
                 sess['lurl'] = "http://www.picture.com/puppy"
                 sess['locname'] = "San Francisco"
                 sess['track_id'] = 3326
                 sess['song_name'] = "happy"
                 sess['name'] = "jane"
-                sess['profile'] = "{u'user_id': u'auth0|123', u'name': u'jane',}"
+                sess['profile'] = {u'user_id': u'auth0|123', u'name': u'jane',
+                                   u'picture': u'http://www.pamperedpetz.net/wp-content/uploads/2015/09/Puppy1.jpg',
+                                   u'nickname': u'jane dough'}
+                sess['getaway_id'] = 1
+
+        connect_to_db(app, "postgresql:///testdb")
+        db.create_all()
+        example_data()
 
     def tearDown(self):
         """Do at end of every test."""
@@ -154,11 +162,39 @@ class ServerTests(TestCase):
         self.assertIn('input type="hidden" name="track_id" id="track_id" value="3326"', result.data)
 
     def test_select_location_route(self):
+        """Tests location selection route."""
 
         result = self.client.get('/select_loc')
         self.assertEqual(result.status_code, 200)
         self.assertIn('<p id="locwelcome">Now it\'s time to pick a location! </p>', result.data)
 
+    def test_login_route(self):
+        """Tests login route."""
+
+        result = self.client.get('/login')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('<h3>Time to login</h3>', result.data)
+
+    def test_options_route(self):
+        """Test options route."""
+
+        result = self.client.get('/options')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('<h1>Options</h1>', result.data)
+
+    def test_dashboard_route(self):
+        """Test dashboard route."""
+
+        result = self.client.get('/dashboard')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('<h1>Next Steps...</h1>', result.data)
+
+    # def test_replay_route(self):
+    #     """Test replay route."""
+
+    #     result = self.client.get('/replay')
+    #     self.assertEqual(result.status_code, 200)
+    #     self.assertIn('img src="/static/img/7d_wordmark_colour_RGB_Small.png">song</img>', result.data)
 
 if __name__ == "__main__":
     main()
