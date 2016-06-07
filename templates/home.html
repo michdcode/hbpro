@@ -2,24 +2,34 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <script src="https://code.jquery.com/jquery.js"></script>
+    <meta content="width=device-width, initial-scale=1">
     <title>One Minute Getaway</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/homepage.css">
 {% endblock %}
 
 {% block content %}
-
-<!-- This div contains the song selection form -->
-    <form action="/songprocess" method="POST" id="ssearch">
-
-        <div class="form-group">
-            <p id="welcome"> Getaway for a minute! Listen to your choice of song while looking at a picture of a location you pick! </p>
-            <label>Enter Song Name: <input type="text" name="sname" id="psname"required="required" placeholder="song name"></label>
+    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <p> Getaway for a minute!</p>
         </div>
+        <div class="col-xs-12">
+            <h2 id="summary"> Pick a song and a location and getaway!<br><br>Enter Song Name:</h2> 
+        </div>
+        <div class="col-xs-offset-4 col-xs-8">    
+            <form action="/songprocess" method="POST" id="ssearch">
+                <!-- using "required" attribute to check for empty field -->
+                <input type="text" name="sname" id="psname"required="required" placeholder="song name">
+                <input type="submit" value="GO!" class="btn">
+            </form>
+        </div>
+    </div>
+</div>
 
-        <input type="submit" value="GO!" id="btn-primary-">
 
-    </form>
-
-    <!-- using "required" attribute to check for empty field -->
-
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 {% endblock %}
