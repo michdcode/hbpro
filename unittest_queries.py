@@ -9,6 +9,9 @@ from flask import Flask, request, session
 # coverage run --source=. --omit=env/* unittest_queries.py
 # coverage report -m > testresults.txt
 # subl testresults.txt
+# coverage html
+# cd htmlcov/
+# open index.html
 
 
 class DatabaseTests(TestCase):
@@ -29,7 +32,7 @@ class DatabaseTests(TestCase):
         db.drop_all()
 
     def test_generic(self):
-        """General Test to make sure server & database are connect & working."""
+        """General Test to make sure server & database are connected & working."""
 
         self.assertEqual(1, 1)
 
@@ -98,6 +101,64 @@ class DatabaseTests(TestCase):
 
         db_getaway = get_getaway(1)
         self.assertIsNotNone(db_getaway)
+
+
+class ServerTests(TestCase):
+
+    def setUp(self):
+        """Stuff to do before every test."""
+
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = "JMD"
+        self.client = app.test_client()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
+                sess['user'] = "{u'user_id': u'auth0|123', u'name': u'jane'}"
+                sess['lurl'] = "http://www.picture.com/puppy"
+                sess['locname'] = "San Francisco"
+                sess['track_id'] = 3326
+                sess['song_name'] = "happy"
+                sess['name'] = "jane"
+                sess['profile'] = "{u'user_id': u'auth0|123', u'name': u'jane',}"
+
+    def tearDown(self):
+        """Do at end of every test."""
+
+        db.session.close()
+        db.drop_all()
+
+    def test_generic(self):
+        """General Test to make sure server is connected & working."""
+
+        self.assertEqual(1, 1)
+
+    def test_homepage_status(self):
+        """Tests that server is running for index page."""
+
+        result = self.client.get('/')
+        self.assertEqual(result.status_code, 200)
+
+    def test_homepage_contents(self):
+        """Tests that home.html is rendering at index location."""
+
+        result = self.client.get('/')
+        self.assertIn('<title>One Minute Getaway</title>', result.data)
+
+    def test_play_route(self):
+        """Tests play route."""
+
+        result = self.client.get('/play')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('input type="hidden" name="track_id" id="track_id" value="3326"', result.data)
+
+    def test_select_location_route(self):
+
+        result = self.client.get('/select_loc')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('<p id="locwelcome">Now it\'s time to pick a location! </p>', result.data)
+
 
 if __name__ == "__main__":
     main()
