@@ -2,36 +2,47 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<link rel="stylesheet" href="/static/css/play.css">
+
 {% endblock %}
 
 
 {% block content %}
 <!-- This div contains the image -->
-    <div id="photodisplay">Enjoy a getaway to {{locname}}
-        <img id="photo" src={{lurl}}></img>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+        <img class="img-responsive center-block" src={{lurl}}></img>
+        <h1>Enjoy a getaway to {{locname}}</h1>
+        </div>
     </div>
-
 <!-- This div contains the song URL -->
-    <div id="song-player">
-            <!-- to hide player delete word controls below -->
+   <div class="row">
+        <div class="col-xs-12 text-center">
+                <!-- to hide player delete word controls below -->
         <audio src={{surl}} controls autoplay>
         </audio>
+        </div>
     </div>
 
 <!-- This is the div for attributions -->
-    <div id="7digital"> 
-        <img src="/static/img/7d_wordmark_colour_RGB_Small.png">song</img>
+    <div class="row logo">
+        <div class="col-xs-12"> 
+        <img class="logo-image" src="/static/img/7d_wordmark_colour_RGB_Small.png"></img>
+        <img class="logo-image" src="/static/img/powered_by_google_on_white.png"></img>
     </div>
-    <div id="google"> 
-        <img src="/static/img/powered_by_google_on_white.png">photo</img>
     </div>
+
 
 <form action="/options" id="options">
         <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
         <input type="hidden" name="locname" id="locname" value="{{locname}}">
         <input type="hidden" name="lurl" id="lurl" value="{{lurl}}">
-<input type="submit" value="Options" id="btn-primary-play">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+        <input type="submit" value="Options" class="btn btn-default">
+        </div>
 </form>
-
+</div>
 
 {% endblock %}

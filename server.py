@@ -9,8 +9,6 @@ from model import connect_to_db
 from image_finder import get_option_images
 from queries import check_new_user, checkin_user, save_current_getaway, prior_getaways, get_getaway
 import json
-from flask_debugtoolbar import DebugToolbarExtension
-
 
 # imported Flash class above, then create an instance of it below
 app = Flask(__name__)
@@ -186,7 +184,6 @@ def provide_options():
 if __name__ == "__main__":
     connect_to_db(app)
     app.debug = True
-    DebugToolbarExtension(app)
     app.run()
 
 #server only runs if executed from terminal, cannot be imported module

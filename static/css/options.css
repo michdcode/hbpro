@@ -1,0 +1,19 @@
+body {
+        background-color: #d4d0c6;
+        color: #665544;
+        background-image: url(/static/img/backdrop.gif);
+        font-family: Georgia, Verdana, serif;
+        text-align: center;
+      }
+      
+#boxl {
+        background-color: #d1c9b4;
+      }
+    
+.option-box {
+        margin: 10px;
+      }
+
+a {
+        text-decoration: none;
+      }

@@ -2,41 +2,30 @@
 {% extends 'base.html' %}
 {% block head %}
     <title>What would you like to do now?</title>
-
-    <script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
-
-    <style>
-
-        body{
-            padding: 2em;
-            font-family: sans-serif;
-        }
-        #options{
-        }
-
-        #options > div {
-            width: 20%;
-            display: inline-block;
-            margin: 0 2em 2em 0;
-        }
-
-        #options > div > img {
-            height: 64px;
-            margin-bottom: 10px;
-            display: block;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css">
+    <link rel="stylesheet" href="/static/css/options.css">
 {% endblock %}
 
 {% block content %}
-    <h1>Options</h1>
-     <div id="options">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+          <h1>Options</h1>
+          <h2>What would you like to do now:</h2>
+        </div>
+    </div>
+         <div class="row">
         {% for image in images %}
-            <div>
-                <img src="{{ image.source }}" alt="{{ image.label }}">
-                <button id="{{ image.id }}"><a href="{{ image.url }}">{{image.label}}</a></button>
-            </div>
+        <div class="col-xs-6 col-md-4 text-center">
+            <div class="well option-box" id="boxl">
+        
+        <a href="{{ image.url }}"><img src="{{ image.source }}" alt="{{ image.label }}"></a>
+            <figcaption id="{{ image.id }}"><a href="{{ image.url }}">{{image.label}}</a></figcaption>
+        </div>
+    </div>
         {% endfor %}
-        </div>  
+    </div>
+    </div>
 {% endblock %}
 

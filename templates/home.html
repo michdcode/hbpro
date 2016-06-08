@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1">
     <title>One Minute Getaway</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css">
     <link rel="stylesheet" href="/static/css/homepage.css">
 {% endblock %}
 
@@ -14,16 +14,20 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <p> Getaway for a minute!</p>
+            <p> One Minute Getaway!</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12 text-center">
             <h2 id="summary"> Pick a song and a location and getaway!<br><br>Enter Song Name:</h2> 
         </div>
-        <div class="col-xs-offset-4 col-xs-8">    
+        <div class="col-xs-12 text-center">    
             <form action="/songprocess" method="POST" id="ssearch">
-                <!-- using "required" attribute to check for empty field -->
                 <input type="text" name="sname" id="psname"required="required" placeholder="song name">
-                <input type="submit" value="GO!" class="btn">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <input type="submit" value="GO!" class="buton">
+            </div>
+        </div>
             </form>
         </div>
     </div>

@@ -3,6 +3,10 @@
 
 
 {% block head %}
+    <title>Select Location</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+    <link href="https://fonts.googleapis.com/css?family=Seymour+One' rel='stylesheet' type='text/css">
+    <link rel="stylesheet" href="/static/css/select_loc.css">
     <style>
     #map {
             height:50px;
@@ -13,16 +17,23 @@
 {% endblock %}
 
 {% block content %}
-<form action="/play" id="lsearch">
-    <div class="form-group">
+<div class="container-fluid">
+    <form action="/play" id="lsearch">
+    <!-- <div class="form-group"> -->
     <p id="locwelcome">Now it's time to pick a location! </p>
-        <label>Enter Location Name: <input type="text" name="lname" id="plname"required="required" size="50"></label>
+    <div class="row">
+    <div class="col-xs-12 text-center">
+        <label><input type="text" name="lname" id="plname"required="required" size="50" class="choice"></label>
         <input type="hidden" name="URLphoto" id="URLphoto" value="">
         <input type="hidden" name="locname" id="locname" value="">
         <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
         <input type="hidden" name="song_name" id="song_name" value="{{song_name}}">
     </div>
-<input type="submit" value="GO!" id="btn-primary-loc">
+    <div class="row">
+    <div class="col-xs-12 text-center">
+        <input type="submit" value="GO!" class="buton">
+    </div>
+    </div>
 </form>
 <div id="map"></div>
 <script src="https://code.jquery.com/jquery.js"></script>

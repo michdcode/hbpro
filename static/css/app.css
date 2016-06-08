@@ -3,6 +3,7 @@ body {
   text-align: center;
   font-size: 300%;
   font-weight: 100;
+  background-color: #DCDCDC;
 }
 input[type=checkbox],
 input[type=radio] {
@@ -38,7 +39,7 @@ input[type=checkbox]:focus + label:before {
   outline: 0;
 }
 .btn {
-  font-size: 140%;
+  font-size: 50%;
   text-transform: uppercase;
   letter-spacing: 1px;
   border: 0;
@@ -51,8 +52,8 @@ input[type=checkbox]:focus + label:before {
 .btn:focus {
   outline: none !important;
 }
-.btn.btn-lg {
-  padding: 20px 30px;
+.btn.btn-xs {
+  padding: 0;
 }
 .btn:disabled {
   background-color: #333;

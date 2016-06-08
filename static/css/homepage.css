@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-  background-image: url(/static/img/sail-boats-1330421_1920.jpg);
+  background-image: url(/static/img/one_sailboat.jpeg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -22,7 +22,7 @@ p {
   font-weight: 100;
   font-size: 72px;
   color: black;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 form {
@@ -31,21 +31,20 @@ form {
 
 #summary {
     color: black;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-weight: 100;
-    text-align: center;
     padding-bottom: 10px;
     margin-top: 125px;
 }
 
-button {
+.buton {
   margin: 25px;
   display: inline-block;
   padding: 15px 30px;
   border: 1px solid #000000;
   text-transform: uppercase;
   letter-spacing: 0.015em;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 12px;
   font-weight: 300;
   line-height: 1;
@@ -64,6 +63,22 @@ input[type="text"] {
   color: black;
   font-size: 16px;
   text-align: center;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   margin-bottom: 50px;
+}
+
+::-webkit-input-placeholder {
+color: #525174 !important;
+}
+ 
+:-moz-placeholder { /* Firefox 18- */
+color: #525174 !important;  
+}
+ 
+::-moz-placeholder {  /* Firefox 19+ */
+color: #525174 !important;  
+}
+ 
+:-ms-input-placeholder {  
+color: #525174 !important;  
 }

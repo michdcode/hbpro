@@ -5,7 +5,7 @@
 {% block head %}
     <meta content="width=device-width, initial-scale=1">
     <title>Welcome</title>
-    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css">
     <link rel="stylesheet" href="/static/css/dashboard.css">
 {% endblock %}
 
@@ -18,18 +18,38 @@
         <div class="col-xs-12">
             <p>Welcome {{user['nickname']}}</h2>
         </div>
+    </div>
   <!-- <img class="avatar" src="{{user['picture']}}"/> -->
+<div class="row">
+    <div class="col-xs-offset-6 col-xs-6">
+        <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Next Steps
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="/save_getaway">Save Getaway</a></li>
+    <li><a href="/getaways">Replay Prior Getaways</a></li>
+    <li><a href="/logout">Logout</a></li>
+    <li role="separator" class="divider"></li>
+  </ul>
 </div>
 
-    <div class="col-xs-12">
-        <h2 id="next-steps"> Next Steps:</h2> 
-    </div>
-    <div class="col-xs-offset-4 col-xs-8">   
+
+
+
+
+
+
+
+
+
+    <!-- <div class="col-xs-offset-4 col-xs-8">   
         <h3>Save Getaway</h3>
         <button><a href="/save_getaway" id="save-getaway">Save</a></button><br>
-        <h3>Replay</h3>
+        <h3>Replay Prior Getaways</h3>
         <button><a href="/getaways" id="get-getaways">Replay</a></button> 
         <br>
         <h3>Logout</h3>
-        <button><a href="/logout" id="logout">Logout</a></button> 
+        <button><a href="/logout" id="logout">Logout</a></button>  -->
 {% endblock %}
