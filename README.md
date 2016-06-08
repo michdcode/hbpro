@@ -6,7 +6,7 @@ One Minute Getaway is a fullstack web application intended to allow users to tak
 
 The user then has the option to purchase the song from 7 digital, as the music is the central point of the experience Alternately, a user can replay the getaway, or go to Expedia and purchase travel. A user can also login using a SSO through the use of the Auth0 API, which is configured to allow Facebook, Twitter and Google based logins, or the user can create a seperate login for the app. Once logged in, the user can save the getaway, set a list of prior getaways and replay a prior getaway.
 
-![Homepage](update)
+![Homepage](https://github.com/michdcode/hbpro/blob/master/for_readME/homepage.png)
 ![Location selection](update)
 
 #### Technologies
