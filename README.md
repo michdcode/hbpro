@@ -16,7 +16,7 @@ Python, Flask, PostGres, SQLAlchemy, HTML, CSS, Bootstrap, Javascript, 7digital 
 
 #### Testing
 Currently, 82% of the app has been tested, including 100% of the actions involving the database.  
-![Testing](https://github.com/michdcode/hbpro/blob/master/testresults.txt)
+![Testing](https://github.com/michdcode/hbpro/blob/master/for_readME/location.png)
 
 #### API Usage
 The seven digital library contains data for over 30 million songs, and was previously used to power song purchases for the Spotify app. The primary reason for the selection of the 7digital API is that it is well documented and contains previews for the majority of songs available. The first API call is to search for the song, and the second API call is to obtain a song preview URL. All calls to the seven digital API are done from the backend, in Python, for speed. Only the track id and song name are stored in the database, no other song information is stored. 

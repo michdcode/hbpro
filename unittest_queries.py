@@ -173,7 +173,7 @@ class ServerTests(TestCase):
 
         result = self.client.get('/login')
         self.assertEqual(result.status_code, 200)
-        self.assertIn('<h3>Time to login</h3>', result.data)
+        self.assertIn('<h3>Please Login to view prior getaways or save a new getaway.</h3>', result.data)
 
     def test_options_route(self):
         """Test options route."""
@@ -187,7 +187,7 @@ class ServerTests(TestCase):
 
         result = self.client.get('/dashboard')
         self.assertEqual(result.status_code, 200)
-        self.assertIn('<h1>Next Steps...</h1>', result.data)
+        self.assertIn('<title>Welcome</title>', result.data)
 
     # def test_replay_route(self):
     #     """Test replay route."""
