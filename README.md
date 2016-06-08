@@ -16,14 +16,12 @@ Python, Flask, PostGres, SQLAlchemy, HTML, CSS, Bootstrap, Javascript, 7digital 
 
 #### Testing
 Currently, 82% of the app has been tested, including 100% of the actions involving the database.  
-![Testing](https://github.com/michdcode/hbpro/blob/master/for_readME/location.png)
+![Testing](https://github.com/michdcode/hbpro/blob/master/for_readME/test_results.png)
 
 #### API Usage
 The seven digital library contains data for over 30 million songs, and was previously used to power song purchases for the Spotify app. The primary reason for the selection of the 7digital API is that it is well documented and contains previews for the majority of songs available. The first API call is to search for the song, and the second API call is to obtain a song preview URL. All calls to the seven digital API are done from the backend, in Python, for speed. Only the track id and song name are stored in the database, no other song information is stored. 
 
 The Google Maps API was selected because the autocomplete feature provides active assistance to users, which enhances the UI/UX experience. The final name of the location is the Google Maps name for the location, which leads to better data quality in the Postgres database if a user chooses to save a Getaway. Lastly, the Places Library contains up to ten pictures for each location, which guarantees a result in most instances and prevents having to use another API to obtain a picture. The first API call allows for the use of the autocomplete feature and selection of the location name, and the second API call is to obtain the URL for the picture of the location. All calls to the Google Maps API are done from the frontend, in JavaScript, for user interactivity. 
-
-![Login](update)
 
 The Auth0 API was selected because it manages the entire login function and is customizeable. Users expect to use social media credentials to login to an application. Auth0 allows developers to choose which social media providers to integrate with, and will obtain user information once a user logs in that can then be stored in the PostGres database. It can also be configured to allow for a login to the web app itself. Auth0 sends an automatic welcome email that can be customized, provides a lost password function, and updates for any changes that social media platforms make to their login API's. It also manages security, which is always a consideration for a login function. Multiple calls are made to the Auth0 API. 
 
