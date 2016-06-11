@@ -11,8 +11,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 text-center">
-          <h1>Options</h1>
-          <h2>What would you like to do now:</h2>
+          <h1>One Minute Getaway</h1>
+          <h2>Options:</h2>
         </div>
     </div>
          <div class="row">
@@ -21,7 +21,8 @@
             <div class="well option-box" id="boxl">
         
         <a href="{{ image.url }}"><img src="{{ image.source }}" alt="{{ image.label }}"></a>
-            <figcaption id="{{ image.id }}"><a href="{{ image.url }}">{{image.label}}</a></figcaption>
+        <h3></h3>
+            <figcaption id="{{ image.id }}"><a href="{{ image.url }}" class="btn btn-primary" role="button">{{image.label}}</a></figcaption>
         </div>
     </div>
         {% endfor %}
