@@ -2,30 +2,45 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<meta content="width=device-width, initial-scale=1">
 <title>Song Problem</title>
-<style>
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  body {
-    background-image: url(/static/img/boat_in_distance.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    color: black;
-  }
-</style>
+<link rel="stylesheet" href="/static/css/song_prob.css">
+
+
 {% endblock %}
 
 {% block content %}
-<h3>Song Problem:</h3>
-<h4> There is more than one song with that name; only the first 10 are shown. Please choose the song you want. Songs appear more than once if included on multiple releases.</h4>
+<div class="container-fluid">
+<h3></h3>
+<h4></h4>
 
-<p>Please choose a song:</p>
+<form class="form-horizontal" id="song_selection" action="/select_loc">
+<fieldset>
 
-<table class="table table-condensed">
+<!-- Form Name -->
+<legend>Multiple songs exist with that name. Please choose the song you would like to hear:</legend>
+
+<!-- Multiple Radios -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="radios">Select Song:</label>
+    <div class="col-md-4">
+      <div class="radio">
+        {% for song in songs %}
+        <label for="radios-0">
+          <input type="radio" name="track_id" id="radios-0" value="{{song[0]}}">
+      {{song[1]}}
+        </label>
+        <br>
+        {% endfor %}
+        <br>
+      <input type="submit" value="Pick Song" class="btn btn-pick-primary" id="singlebutton">
+  </div>
+
+
+
+
+
+<!-- <table class="table table-condensed">
 <form id="song_selection" action="/select_loc">
     {% for song in songs %}
     <tr>
@@ -36,5 +51,5 @@
     </tr>
     {% endfor %}
     <input type="submit" value="Pick Song" id="btn-pick-primary">
-</form>
+</form> -->
 {% endblock %}
