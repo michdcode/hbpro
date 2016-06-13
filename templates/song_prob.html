@@ -18,38 +18,27 @@
 <fieldset>
 
 <!-- Form Name -->
-<legend>Multiple songs exist with that name. Please choose the song you would like to hear:</legend>
+<legend>MULTIPLE SONGS</legend>
 
 <!-- Multiple Radios -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="radios">Select Song:</label>
+  <label class="col-md-4 control-label" for="radios">Select Desired Song:</label>
     <div class="col-md-4">
       <div class="radio">
         {% for song in songs %}
         <label for="radios-0">
           <input type="radio" name="track_id" id="radios-0" value="{{song[0]}}">
       {{song[1]}}
+          <input type="hidden" name="song_name" value="{{song[1]}}">
         </label>
         <br>
         {% endfor %}
         <br>
       <input type="submit" value="Pick Song" class="btn btn-pick-primary" id="singlebutton">
-  </div>
+      </div>
+    </div>
+</div>
+</form>
+</div>
 
-
-
-
-
-<!-- <table class="table table-condensed">
-<form id="song_selection" action="/select_loc">
-    {% for song in songs %}
-    <tr>
-      <td>
-        <input type="radio" name="track_id" value="{{song[0]}}">{{song[1]}}<br>
-        <input type="hidden" name="song_name" value="{{song[1]}}">
-      </td>
-    </tr>
-    {% endfor %}
-    <input type="submit" value="Pick Song" id="btn-pick-primary">
-</form> -->
 {% endblock %}

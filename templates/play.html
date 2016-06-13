@@ -2,21 +2,33 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="/static/css/play.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/play.css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
 {% endblock %}
 
 
 {% block content %}
+
 <!-- This div contains the image -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12 text-center">
-        <img class="img-responsive center-block" src={{lurl}}></img>
-        <h1>Enjoy a getaway to {{locname}}</h1>
-        </div>
+<header id="top" class="header">
+    <body background="{{lurl}}" class="header">
+    <div class="text-vertical-center">
+        <h1>{{locname}}</h1>
+            <br>
+        <form action="/options" id="options">
+        <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
+        <input type="hidden" name="locname" id="locname" value="{{locname}}">
+        <input type="hidden" name="lurl" id="lurl" value="{{lurl}}">
+        <input type="submit" value="Options" class="btn btn-dark btn-lg">
+        </form>
     </div>
-<!-- This div contains the song URL -->
+
+<!-- This div contains the song -->
    <div class="row">
         <div class="col-xs-12 text-center">
                 <!-- to hide player delete word controls below -->
@@ -33,16 +45,5 @@
     </div>
     </div>
 
-
-<form action="/options" id="options">
-        <input type="hidden" name="track_id" id="track_id" value="{{track_id}}">
-        <input type="hidden" name="locname" id="locname" value="{{locname}}">
-        <input type="hidden" name="lurl" id="lurl" value="{{lurl}}">
-    <div class="row">
-        <div class="col-xs-12 text-center">
-        <input type="submit" value="Options" class="btn btn-default">
-        </div>
-</form>
-</div>
 
 {% endblock %}

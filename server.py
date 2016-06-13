@@ -33,7 +33,8 @@ def song_process():
     track_ids = get_track_ids(root)
 
     if len(track_ids) == 0:
-        return render_template("no_song_found.html")
+        flash("No song found with that name.")
+        return redirect('/')
 
     elif len(track_ids) > 1:
         songid_title = get_song_id_title(root, track_ids)
@@ -61,7 +62,7 @@ def select_location():
 def getaway():
     """Plays song and shows picture."""
 
-    track_id = request.args.get("track_id")
+    # track_id = request.args.get("track_id")
     track_id = session['track_id']
     track_id = int(track_id)
     surl = obtain_song_URL(track_id)

@@ -8,7 +8,14 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <ul>
+    {% for message in get_flashed_messages() %}
+        <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
 {% block content %}
+
+
 {% endblock %}
 
 <script src="http://code.jquery.com/jquery.js"></script>
