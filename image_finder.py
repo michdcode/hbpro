@@ -1,7 +1,8 @@
 
 
 def get_option_images():
-    """Gets images and URL's for various options."""
+    """Gets icons and URL's for options page."""
+
     images = [
         {"id": 1,
          "source": "static/img/shopping-cart.png",

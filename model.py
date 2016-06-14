@@ -24,15 +24,12 @@ class Getaway(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
     created = db.Column(db.DateTime, default=db.func.now())
 
-    # Define a relationship to user
     user = db.relationship("User", backref=db.backref("getaways",
                                                       order_by=getaway_id))
 
-    # Define a relationship to songs
     song = db.relationship("Song", backref=db.backref("getaways",
                                                       order_by=getaway_id))
 
-    # Define a realationship to location
     location = db.relationship("Location", backref=db.backref("getaways",
                                                               order_by=getaway_id))
 

@@ -15,7 +15,6 @@ def grab_env_variables():
     return env_variables
 
 
-# Requires authentication annotation
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
