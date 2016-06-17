@@ -26,7 +26,7 @@ def obtain_song_URL(track_id):
 
 
 def get_song_info(user_song):
-    """Make API call for info about song & put in usable format."""
+    """7digital API call for song info, turn XML result into ElementTree."""
 
     consumer_key = os.environ['consumer_key']
     payload = {'q': user_song, 'oauth_consumer_key': consumer_key,
@@ -41,7 +41,7 @@ def get_song_info(user_song):
 
 
 def get_track_ids(root):
-    """Parse root and grab track id."""
+    """Iterate over sub-tree to obtain track_ids."""
 
     track_ids = []
     for track in root.iter('track'):
@@ -50,7 +50,7 @@ def get_track_ids(root):
 
 
 def get_song_id_title(root, track_ids):
-    """Obtains song name and matches it with track id."""
+    """Iterate over sub-tree to obtain song name and match to track id."""
 
     titles = []
     for title in root.iter('title'):

@@ -70,3 +70,6 @@ Once a User has logged in, add a link to the login page that allows the user to 
 
 ###### Display Map
 While a getaway is being display, show a map with the location of the getaway.
+
+### Note
+The app is not publicly released and never will be. It is a student project for school.
