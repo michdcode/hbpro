@@ -27,28 +27,28 @@ The Auth0 API was selected because it manages the entire login function and is c
 
 ### Structure of main components
 
-#####api.py
+##### api.py
 Backend components for using the 7digital API.
 
-#####loginapi.py
+##### loginapi.py
 Frontend components for using the Google maps API. 
 
-#####model.py
+##### model.py
 SQLAlchemy Integration with PostgreSQL, object oriented database model.
 
-#####queries.py
+##### queries.py
 All queries, storage and other interactions with the PostgreSQL database. 
 
-#####server.py
+##### server.py
 The core of the app, showing all Flask routes.
 
-#####static
+##### static
 The folder contains three subfolders: (1) img: images used by the app, but not location images from Google; (2) css: external css files for various pages for the app; (3) js: javascript file for certain functionality for the app. 
 
-#####templates
+##### templates
 The folder contains all web pages used for the app.
 
-#####unittest_queries
+##### unittest_queries
 Contains the tests performed on the app. 
 
 ### Future Upgrades
